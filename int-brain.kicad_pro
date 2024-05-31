@@ -456,7 +456,12 @@
     "meta": {
       "version": 3
     },
-    "net_colors": null,
+    "net_colors": {
+      "/RX0": "rgb(0, 255, 0)",
+      "/SCL0": "rgb(0, 255, 0)",
+      "/SDA0": "rgb(0, 255, 0)",
+      "/TX0": "rgb(0, 255, 0)"
+    },
     "netclass_assignments": null,
     "netclass_patterns": []
   },
@@ -579,7 +584,11 @@
     ],
     [
       "20b88e9a-a549-4bdb-8919-c1b702d2b3ad",
-      "motor_driver"
+      "motor_driver_1"
+    ],
+    [
+      "338897ee-087f-4875-b23f-514b5ec01eea",
+      "motor_driver_2"
     ]
   ],
   "text_variables": {}

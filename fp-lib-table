@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "heatsink")(type "KiCad")(uri "${KIPRJMOD}/libraries/heatsink-30x25x25mm-for-kicad-1.snapshot.51/heatsink.pretty")(options "")(descr ""))
+)
