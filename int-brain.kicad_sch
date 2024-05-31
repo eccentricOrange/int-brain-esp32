@@ -1,0 +1,171 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "177c6115-ec2a-43b1-88e2-eca3e5dd1279")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 200.66 34.29)
+		(size 40.64 31.75)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "20b88e9a-a549-4bdb-8919-c1b702d2b3ad")
+		(property "Sheetname" "motor_driver"
+			(at 200.66 33.5784 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "motor-driver.kicad_sch"
+			(at 200.66 66.6246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "M2A" output
+			(at 241.3 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "62a3d2fb-133e-487e-a4d1-8fbdb537309c")
+		)
+		(pin "M1B" output
+			(at 241.3 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "b58e826c-fc04-416e-a3c9-e3d6fc881a26")
+		)
+		(pin "M1A" output
+			(at 241.3 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "dc25b698-2f2f-43b4-a28f-6bac55aa47a9")
+		)
+		(pin "M2B" output
+			(at 241.3 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "bf3570eb-b49b-4123-b7f6-1e91cba8b57a")
+		)
+		(pin "MB_SENSE" output
+			(at 200.66 62.23 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "7a3501f5-d2bb-4e16-bd6d-811eb32386e4")
+		)
+		(pin "MA_SENSE" output
+			(at 200.66 59.69 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "d61c110b-3e57-4e66-91c1-3cd42e1c83cb")
+		)
+		(pin "M1A_IN" output
+			(at 200.66 38.1 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "4915aa89-845f-410d-abf5-39513035e0c0")
+		)
+		(pin "M1B_IN" output
+			(at 200.66 40.64 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "db5ced36-cbb0-4b88-8e38-6d0f698e70b7")
+		)
+		(pin "MB_EN" output
+			(at 200.66 54.61 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "92435071-5962-4b60-8f45-6f04f3358214")
+		)
+		(pin "M2B_IN" output
+			(at 200.66 45.72 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "613d7031-7663-4259-b866-797fba6942b2")
+		)
+		(pin "M2A_IN" output
+			(at 200.66 43.18 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "90287aad-6286-4f8d-8f69-0ead016e3f79")
+		)
+		(pin "MA_EN" output
+			(at 200.66 52.07 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "139bba7f-7169-4f9f-b4b1-4457ef42db59")
+		)
+		(instances
+			(project "int-brain"
+				(path "/177c6115-ec2a-43b1-88e2-eca3e5dd1279"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)
