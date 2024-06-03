@@ -2,3 +2,4 @@
 *cache
 *.zip
 *.lck
+*auto_saved*
