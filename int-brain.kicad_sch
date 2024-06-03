@@ -9249,7 +9249,7 @@
 		)
 		(uuid "9e8de769-2346-4d03-9fca-c1d04bf8f27b")
 	)
-	(label "BUCK_IN"
+	(label "VIN_BUCK"
 		(at 123.19 311.15 0)
 		(fields_autoplaced yes)
 		(effects
