@@ -20543,6 +20543,18 @@
 			(justify left bottom)
 		)
 	)
+	(gr_text "(10 || 5) / 57 VS"
+		(at 128 111.5 90)
+		(layer "F.SilkS")
+		(uuid "63378082-4b79-467e-96b1-c02ec4597532")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.1)
+			)
+			(justify left bottom)
+		)
+	)
 	(gr_text "MOTOR: I1-I2-EN-SE\nALLWAYS GPIO"
 		(at 151.3 81.7 90)
 		(layer "F.SilkS")
@@ -20725,6 +20737,18 @@
 				(size 2 4)
 				(thickness 0.2)
 				(bold yes)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "@39"
+		(at 123.5 112 0)
+		(layer "F.SilkS")
+		(uuid "c497c40f-17fb-4a02-8b43-012851d0d3e0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
 			)
 			(justify left bottom)
 		)
