@@ -11071,7 +11071,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5b3ffc30-74af-460e-b0eb-7d545340a2a5")
+			(uuid "5b3ffc30-74af-460e-b0eb-7d545340a2a6")
 		)
 		(instances
 			(project "int-brain"
@@ -12828,7 +12828,7 @@
 				)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "3.9k"
 			(at 114.3 293.37 90)
 			(effects
 				(font
@@ -13273,7 +13273,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5b3ffc30-74af-460e-b0eb-7d545340a2a5")
+			(uuid "5b3ffc30-74af-460e-b0eb-7d545340a2a7")
 		)
 		(instances
 			(project "int-brain"
@@ -13606,7 +13606,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "5b3ffc30-74af-460e-b0eb-7d545340a2a5")
+			(uuid "5b3ffc30-74af-460e-b0eb-7d545340a2a8")
 		)
 		(instances
 			(project "int-brain"

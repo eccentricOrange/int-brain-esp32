@@ -2269,7 +2269,7 @@
 		(dnp no)
 		(uuid "17e3acd2-51c0-4452-9841-ce2c1ff23fa4")
 		(property "Reference" "R1"
-			(at 55.626 99.06 0)
+			(at 54.61 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2277,8 +2277,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.5R"
-			(at 55.626 101.6 0)
+		(property "Value" "0R33"
+			(at 54.61 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2351,7 +2351,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.5R"
+		(property "Value" "0R33"
 			(at 66.04 101.5999 0)
 			(effects
 				(font

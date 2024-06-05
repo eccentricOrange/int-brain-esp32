@@ -6558,7 +6558,7 @@
 				)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "3.9k"
 			(at 0 1.82 90)
 			(layer "F.Fab")
 			(uuid "dc440f56-b8d0-449c-8ee0-a8d583dc1df1")
@@ -6768,7 +6768,7 @@
 				)
 			)
 		)
-		(property "Value" "0.5R"
+		(property "Value" "0R33"
 			(at 10.16 0 0)
 			(layer "F.SilkS")
 			(uuid "ff8c8b72-cdc1-460b-adde-9a0c01534aa7")
@@ -12432,7 +12432,7 @@
 				)
 			)
 		)
-		(property "Value" "0.5R"
+		(property "Value" "0R33"
 			(at 10.06 0 -90)
 			(layer "F.SilkS")
 			(uuid "2f0ea50b-fade-46cb-8863-605eabf585fe")
@@ -14909,7 +14909,7 @@
 				)
 			)
 		)
-		(property "Value" "0.5R"
+		(property "Value" "0R33"
 			(at 10.36 0 90)
 			(layer "F.SilkS")
 			(uuid "303afbeb-01b4-47fb-9164-23ffa61405d8")
@@ -17360,7 +17360,7 @@
 				)
 			)
 		)
-		(property "Value" "0.5R"
+		(property "Value" "0R33"
 			(at 10.26 0 0)
 			(layer "F.SilkS")
 			(uuid "54e9a706-9456-4029-a840-90667f5f7653")
@@ -20543,14 +20543,14 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "(10 || 5) / 57 VS"
-		(at 128 111.5 90)
+	(gr_text "2k OR 3k9\n6S OR 3S"
+		(at 128.6 110.8 90)
 		(layer "F.SilkS")
 		(uuid "63378082-4b79-467e-96b1-c02ec4597532")
 		(effects
 			(font
-				(size 0.8 0.8)
-				(thickness 0.1)
+				(size 0.7 0.7)
+				(thickness 0.0875)
 			)
 			(justify left bottom)
 		)
@@ -20761,6 +20761,18 @@
 			(font
 				(size 0.6 0.6)
 				(thickness 0.1)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "47k"
+		(at 128 103.1 90)
+		(layer "F.SilkS")
+		(uuid "d6b9fe81-6d51-443c-a003-5246f141b04e")
+		(effects
+			(font
+				(size 0.7 0.7)
+				(thickness 0.0875)
 			)
 			(justify left bottom)
 		)
