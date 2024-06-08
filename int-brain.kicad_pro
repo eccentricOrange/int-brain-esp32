@@ -584,6 +584,14 @@
     [
       "338897ee-087f-4875-b23f-514b5ec01eea",
       "motor_driver_2"
+    ],
+    [
+      "56d8329f-254f-4dd0-80ec-39e37dabe7d0",
+      "buck1"
+    ],
+    [
+      "c0f29a38-ad71-4b95-ae80-e4fccc0f1959",
+      "buck2"
     ]
   ],
   "text_variables": {}
