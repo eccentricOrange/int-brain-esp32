@@ -5608,6 +5608,12 @@
 		(uuid "116a0ea6-4bfe-4700-85bb-59b93b989b9b")
 	)
 	(junction
+		(at 133.35 398.78)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "12da45b6-9083-4769-9ebb-e6e5098a8d83")
+	)
+	(junction
 		(at 95.25 391.16)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6609,6 +6615,16 @@
 	)
 	(wire
 		(pts
+			(xy 133.35 398.78) (xy 138.43 398.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "00b9f5c9-96fc-4969-a67c-2ca1127d03fe")
+	)
+	(wire
+		(pts
 			(xy 50.8 251.46) (xy 368.3 251.46)
 		)
 		(stroke
@@ -6936,6 +6952,16 @@
 			(type default)
 		)
 		(uuid "1758cc8a-318e-4836-8711-2938214b5af9")
+	)
+	(wire
+		(pts
+			(xy 127 398.78) (xy 133.35 398.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17e1a825-a471-4ba0-8ad6-3aa8a40ec3ec")
 	)
 	(bus
 		(pts
@@ -7469,6 +7495,16 @@
 	)
 	(wire
 		(pts
+			(xy 116.84 421.64) (xy 116.84 425.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a400f49-9798-49d8-b506-82948256aad3")
+	)
+	(wire
+		(pts
 			(xy 149.86 530.86) (xy 152.4 530.86)
 		)
 		(stroke
@@ -7917,16 +7953,6 @@
 		)
 		(uuid "53d688fc-4871-4ea3-b8a9-86fcb13ba988")
 	)
-	(wire
-		(pts
-			(xy 127 398.78) (xy 127 405.13)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "54514945-8b45-4120-95be-540b8689f092")
-	)
 	(bus
 		(pts
 			(xy 370.84 67.31) (xy 370.84 69.85)
@@ -8206,6 +8232,16 @@
 			(type default)
 		)
 		(uuid "63a94bcd-cc48-40bb-b14a-a00959f880c5")
+	)
+	(wire
+		(pts
+			(xy 127 425.45) (xy 127 422.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63d989dc-bd2d-458e-86c5-33077f0a7fa7")
 	)
 	(wire
 		(pts
@@ -8796,6 +8832,16 @@
 			(type default)
 		)
 		(uuid "8cfd9000-d1a2-4327-b4dd-2c7ca8ae471f")
+	)
+	(wire
+		(pts
+			(xy 133.35 398.78) (xy 133.35 415.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8db32f25-fb74-4795-9aa8-839225a3ce74")
 	)
 	(wire
 		(pts
@@ -9609,16 +9655,6 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 398.78) (xy 127 398.78)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ba6dfcdf-c130-489d-9caf-543c3cb10c39")
-	)
-	(wire
-		(pts
 			(xy 95.25 391.16) (xy 138.43 391.16)
 		)
 		(stroke
@@ -9676,6 +9712,16 @@
 			(type default)
 		)
 		(uuid "bd6c114d-682d-4b07-ba87-5deeaafb8ef7")
+	)
+	(wire
+		(pts
+			(xy 127 415.29) (xy 127 398.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd9934ec-0df9-4710-aa59-7a1b0f33044d")
 	)
 	(wire
 		(pts
@@ -10169,6 +10215,16 @@
 	)
 	(wire
 		(pts
+			(xy 116.84 425.45) (xy 127 425.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d87ab923-1dfa-4254-b576-70aab510c07a")
+	)
+	(wire
+		(pts
 			(xy 66.04 408.94) (xy 66.04 411.48)
 		)
 		(stroke
@@ -10406,6 +10462,16 @@
 			(type default)
 		)
 		(uuid "e7cd1a0b-9649-45e4-9770-62ad3bea683c")
+	)
+	(wire
+		(pts
+			(xy 133.35 422.91) (xy 133.35 426.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7fc517f-a0f7-43a1-9b50-ceed0b3a6c58")
 	)
 	(wire
 		(pts
@@ -11215,6 +11281,17 @@
 			(justify left bottom)
 		)
 		(uuid "69fb80f3-7ca8-416c-96de-67f495a8319b")
+	)
+	(label "PCA_IO"
+		(at 129.54 398.78 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6ed49013-51ad-4ec3-84b7-d51ba8c63301")
 	)
 	(label "2MB2"
 		(at 314.96 422.91 0)
@@ -13548,6 +13625,76 @@
 		)
 	)
 	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 133.35 419.1 90)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "39cfd08a-7b16-44c6-912c-dbbe98b30f5c")
+		(property "Reference" "JP7"
+			(at 135.89 417.8299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "GND"
+			(at 135.89 420.3699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm"
+			(at 133.35 419.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 133.35 419.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 133.35 419.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4d20a477-db7a-4854-8365-db3318d55ec6")
+		)
+		(pin "2"
+			(uuid "c69bb7c2-49f2-4a4a-bcd3-cb2889b5b338")
+		)
+		(instances
+			(project "int-brain"
+				(path "/177c6115-ec2a-43b1-88e2-eca3e5dd1279"
+					(reference "JP7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 105.41 568.96 0)
 		(unit 1)
@@ -14176,6 +14323,75 @@
 			(project "int-brain"
 				(path "/177c6115-ec2a-43b1-88e2-eca3e5dd1279"
 					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Jumper:SolderJumper_2_Open")
+		(at 127 419.1 90)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "4bc566e0-14eb-4585-9eac-619596572aa8")
+		(property "Reference" "JP6"
+			(at 121.158 417.576 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "VCC"
+			(at 121.158 420.116 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm"
+			(at 127 419.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 127 419.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Solder Jumper, 2-pole, open"
+			(at 127 419.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4d20a477-db7a-4854-8365-db3318d55ec6")
+		)
+		(pin "2"
+			(uuid "c69bb7c2-49f2-4a4a-bcd3-cb2889b5b338")
+		)
+		(instances
+			(project "int-brain"
+				(path "/177c6115-ec2a-43b1-88e2-eca3e5dd1279"
+					(reference "JP6")
 					(unit 1)
 				)
 			)
@@ -17222,7 +17438,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 127 405.13 0)
+		(at 133.35 426.72 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17231,7 +17447,7 @@
 		(fields_autoplaced yes)
 		(uuid "c352779d-2135-4fa5-8534-a36b7204da71")
 		(property "Reference" "#PWR037"
-			(at 127 411.48 0)
+			(at 133.35 433.07 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17240,7 +17456,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 127 410.21 0)
+			(at 133.35 431.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17248,7 +17464,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 127 405.13 0)
+			(at 133.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17257,7 +17473,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 127 405.13 0)
+			(at 133.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17266,7 +17482,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 127 405.13 0)
+			(at 133.35 426.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17281,6 +17497,72 @@
 			(project "int-brain"
 				(path "/177c6115-ec2a-43b1-88e2-eca3e5dd1279"
 					(reference "#PWR037")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 116.84 421.64 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c63d7ab4-1cc6-428b-8d1d-d4224a091301")
+		(property "Reference" "#PWR031"
+			(at 116.84 425.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 116.84 416.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 116.84 421.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 116.84 421.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+			(at 116.84 421.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c1963e58-dade-4e6c-9204-4b53e748806a")
+		)
+		(instances
+			(project "int-brain"
+				(path "/177c6115-ec2a-43b1-88e2-eca3e5dd1279"
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)
