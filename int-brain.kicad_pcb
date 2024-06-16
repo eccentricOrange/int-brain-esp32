@@ -113,9 +113,9 @@
 			(subtractmaskfromsilk no)
 			(outputformat 1)
 			(mirror no)
-			(drillshape 1)
+			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "")
+			(outputdirectory "exports/gerbers/")
 		)
 	)
 	(net 0 "")
@@ -4631,7 +4631,7 @@
 				)
 			)
 		)
-		(property "Value" "Left"
+		(property "Value" "Bottom"
 			(at 0 48.05 90)
 			(layer "F.Fab")
 			(uuid "9ac8de69-1498-4077-ae28-1e454ca6412d")
@@ -9593,7 +9593,7 @@
 				)
 			)
 		)
-		(property "Value" "~"
+		(property "Value" "TPS5450DDA"
 			(at 0 3.4 0)
 			(layer "F.Fab")
 			(uuid "233b268e-1778-4f01-a0a1-1a8c3731414d")
@@ -9617,7 +9617,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.ti.com/lit/gpn/TPS5450"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9630,7 +9630,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "TPS5450 5-A, Wide Input Range, Step-Down Converter"
 			(at 0 0 180)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -11380,7 +11380,7 @@
 				)
 			)
 		)
-		(property "Value" "3k9"
+		(property "Value" "2k"
 			(at 0 1.82 90)
 			(layer "F.Fab")
 			(uuid "295df32e-4414-476c-a8c0-ebd05a00b168")
@@ -18345,7 +18345,7 @@
 				)
 			)
 		)
-		(property "Value" "Conn_01x03"
+		(property "Value" "VBATT_SELECT"
 			(at 0 7.41 0)
 			(layer "F.Fab")
 			(uuid "412d289e-f538-4429-9069-3cacf8f97a9e")
@@ -18624,7 +18624,7 @@
 				)
 			)
 		)
-		(property "Value" "Right"
+		(property "Value" "Top"
 			(at 0 48.05 90)
 			(layer "F.Fab")
 			(uuid "ab21a63e-319b-4253-96bf-d5daadb6da5d")
@@ -20599,7 +20599,7 @@
 				)
 			)
 		)
-		(property "Value" "~"
+		(property "Value" "TPS5450DDA"
 			(at 0 3.4 0)
 			(layer "F.Fab")
 			(uuid "539ed468-8eff-4fcf-b1b2-51c3b741a491")
@@ -20623,7 +20623,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.ti.com/lit/gpn/TPS5450"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -20636,7 +20636,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "TPS5450 5-A, Wide Input Range, Step-Down Converter"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -33240,7 +33240,7 @@
 				(justify mirror)
 			)
 		)
-		(property "Value" "VCC"
+		(property "Value" "I/O"
 			(at 0 -1.9 90)
 			(layer "B.Fab")
 			(uuid "bca14ec2-1ae2-4836-b748-0240ed1392e6")

@@ -73,6 +73,7 @@
         "footprint_type_mismatch": "ignore",
         "hole_clearance": "error",
         "hole_near_hole": "error",
+        "holes_co_located": "warning",
         "invalid_outline": "error",
         "isolated_copper": "warning",
         "item_on_disabled_layer": "error",
@@ -465,10 +466,10 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "exports/gerbers/",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "exports/3d-model.step",
       "svg": "",
       "vrml": ""
     },
@@ -476,7 +477,7 @@
   },
   "schematic": {
     "annotate_start_num": 0,
-    "bom_export_filename": "",
+    "bom_export_filename": "exports\\bom.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
@@ -603,24 +604,24 @@
       "Root"
     ],
     [
-      "3aa5ff35-f1e4-4363-b486-67039b9b003f",
-      "motor-driver-2"
-    ],
-    [
-      "53f73c1a-d7fd-41ff-bd2e-c7c3dc215355",
-      "motor-driver-3"
-    ],
-    [
       "56d8329f-254f-4dd0-80ec-39e37dabe7d0",
       "buck1"
+    ],
+    [
+      "c0f29a38-ad71-4b95-ae80-e4fccc0f1959",
+      "buck2"
     ],
     [
       "edf40a6e-4eb4-48c4-bc10-bf2e0baea61d",
       "motor-driver-1"
     ],
     [
-      "c0f29a38-ad71-4b95-ae80-e4fccc0f1959",
-      "buck2"
+      "3aa5ff35-f1e4-4363-b486-67039b9b003f",
+      "motor-driver-2"
+    ],
+    [
+      "53f73c1a-d7fd-41ff-bd2e-c7c3dc215355",
+      "motor-driver-3"
     ],
     [
       "3f44c227-c85e-4031-a63f-33107dfe5d19",
