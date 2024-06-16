@@ -2022,7 +2022,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7ac0d1a3-cd69-4bcd-970f-fac635bdb2bc")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR039"
 			(at 44.45 81.28 0)
 			(effects
 				(font
