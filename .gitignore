@@ -3,3 +3,4 @@
 *.zip
 *.lck
 *auto*save*
+exports/
