@@ -20,6 +20,14 @@
 | 2B | IN 1 | 5 |
 | 2B | IN 2 | 6 |
 
+## Motor indicator LEDs
+| Motor | PCA9685 |
+| --- | --- |
+| 1A | 11 |
+| 1B | 10 |
+| 2A | 2 |
+| 2B | 7 |
+
 ## Encoders
 | Encoder | Pin | ESP32 GPIO |
 | --- | --- | --- |
