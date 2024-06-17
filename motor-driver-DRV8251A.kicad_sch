@@ -1991,7 +1991,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "DRV8251ADDAR"
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/drv8251a.pdf"
 			(at 119.38 96.52 0)
 			(effects
 				(font
@@ -2001,7 +2001,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "4.1-A Brushed DC Motor Driver with Integrated Current Sense and Regulation"
 			(at 119.38 96.52 0)
 			(effects
 				(font

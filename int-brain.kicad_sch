@@ -15232,7 +15232,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
 			(at 171.45 341.3252 0)
 			(effects
 				(font
@@ -15667,7 +15667,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x19, script generated"
+		(property "Description" "Female jumper header"
 			(at 45.72 247.65 0)
 			(effects
 				(font
@@ -16105,7 +16105,7 @@
 				)
 			)
 		)
-		(property "Value" "SW_Push"
+		(property "Value" "ON/OFF"
 			(at 250.19 477.52 0)
 			(effects
 				(font
@@ -16408,7 +16408,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x19, script generated"
+		(property "Description" "Female jumper header"
 			(at 45.72 193.04 0)
 			(effects
 				(font
@@ -19730,7 +19730,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "Female jumper header"
 			(at 336.55 474.98 0)
 			(effects
 				(font
