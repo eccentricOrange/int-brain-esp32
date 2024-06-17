@@ -11663,6 +11663,18 @@
 		)
 		(uuid "0faa6e9a-f699-484e-bd62-d12b57953f19")
 	)
+	(text "Find chosen pinouts in the README:\nhttps://github.com/eccentricOrange/int-brain/blob/\nmain/README.md"
+		(exclude_from_sim no)
+		(at 33.528 52.578 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+			(href "https://github.com/eccentricOrange/int-brain/blob/main/README.md")
+		)
+		(uuid "0fd5b9c2-56c6-4984-901d-0af46b9e51ee")
+	)
 	(text "NCS"
 		(exclude_from_sim no)
 		(at 344.17 483.87 0)
