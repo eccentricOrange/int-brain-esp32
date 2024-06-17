@@ -1,0 +1,55 @@
+# Pin-outs
+
+## IMU MPU9250
+| MPU9250 | ESP32 GPIO |
+| --- | --- |
+| INT | 33 |
+| FSYNC | 32 |
+| SDA | 21 |
+| SCL | 22 |
+
+## Motor Drivers
+| Motor | DRV8251A | PCA9685 |
+| --- | --- | --- |
+| 1A | IN 1 | 12 |
+| 1A | IN 2 | 13 |
+| 1B | IN 1 | 8 |
+| 1B | IN 2 | 9 |
+| 2A | IN 1 | 3 |
+| 2A | IN 2 | 4 |
+| 2B | IN 1 | 5 |
+| 2B | IN 2 | 6 |
+
+## Encoders
+| Encoder | Pin | ESP32 GPIO |
+| --- | --- | --- |
+| 1A | 1 | 18 |
+| 1A | 2 | 19 |
+| 1B | 1 | 23 |
+| 1B | 2 | 25 |
+| 2A | 1 | 5 |
+| 2A | 2 | 17 |
+| 2B | 1 | 14 |
+| 2B | 2 | 12 |
+
+## Motor current sense
+| Motor | ESP32 GPIO |
+| --- | --- |
+| 1A | 35 |
+| 1B | 34 |
+| 2A | 39 |
+| 2B | 36 |
+
+## Protocols
+| Protocol | Pin | ESP32 GPIO |
+| --- | --- | --- |
+| I2C | SDA | 21 |
+| I2C | SCL | 22 |
+| UART0 | TX | 1 |
+| UART0 | RX | 3 |
+
+## Miscellaneous
+| Function | ESP32 GPIO |
+| --- | --- |
+| Battery Voltage | 25 |
+| Motor PCA Enable | 4 |
