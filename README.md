@@ -5,8 +5,8 @@
 | --- | --- |
 | INT | 33 |
 | FSYNC | 32 |
-| SDA | 21 |
-| SCL | 22 |
+
+Use I2C0 for communication with the IMU.
 
 ## Motor Drivers
 | Motor | DRV8251A | PCA9685 |
@@ -20,6 +20,8 @@
 | 2B | IN 1 | 5 |
 | 2B | IN 2 | 6 |
 
+Use I2C0 for communication with the PCA9685.
+
 ## Motor indicator LEDs
 | Motor | PCA9685 |
 | --- | --- |
@@ -27,6 +29,8 @@
 | 1B | 10 |
 | 2A | 2 |
 | 2B | 7 |
+
+Use I2C0 for communication with the PCA9685.
 
 ## Encoders
 | Encoder | Pin | ESP32 GPIO |
@@ -51,10 +55,14 @@
 ## Protocols
 | Protocol | Pin | ESP32 GPIO |
 | --- | --- | --- |
-| I2C | SDA | 21 |
-| I2C | SCL | 22 |
+| I2C0 | SDA | 21 |
+| I2C0 | SCL | 22 |
+| I2C1 | SDA | 13 |
+| I2C1 | SCL | 15 |
 | UART0 | TX | 1 |
 | UART0 | RX | 3 |
+
+Use I2C0 (as master) for communication with the IMU and PCA9685. Use I2C1 (as slave) for communication with an SBC such as a Raspberry Pi or NVIDIA Jetson.
 
 ## Miscellaneous
 | Function | ESP32 GPIO |
