@@ -53,14 +53,14 @@ Use I2C0 for communication with the PCA9685.
 | 2B | 36 |
 
 ## Protocols
-| Protocol | Pin | ESP32 GPIO |
-| --- | --- | --- |
-| I2C0 | SDA | 21 |
-| I2C0 | SCL | 22 |
-| I2C1 | SDA | 13 |
-| I2C1 | SCL | 15 |
-| UART0 | TX | 1 |
-| UART0 | RX | 3 |
+| Protocol | Pin | ESP32 GPIO | Built-in Pull-up |
+| --- | --- | --- | --- |
+| I2C0 | SDA | 21 | Yes, 4.7k to 3.3V |
+| I2C0 | SCL | 22 | Yes, 4.7k to 3.3V |
+| I2C1 | SDA | 13 | Yes, 4.7k to 3.3V |
+| I2C1 | SCL | 15 | Yes, 4.7k to 3.3V |
+| UART0 | TX | 1 | No |
+| UART0 | RX | 3 | No |
 
 Use I2C0 (as master) for communication with the IMU and PCA9685. Use I2C1 (as slave) for communication with an SBC such as a Raspberry Pi or NVIDIA Jetson.
 
