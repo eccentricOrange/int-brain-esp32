@@ -1,0 +1,46 @@
+from enum import Enum
+
+class MotorSafetyMode(Enum):
+    UNSAFE = 0b00
+    PROTECT_STALL = 0b01
+    PROTECT_DISCONNECT = 0b10
+    PROTECT_STALL_AND_DISCONNECT = 0b11
+
+class MotorSpeedMode(Enum):
+    STOP = 0b00
+    MAX = 0b01
+    COMMAND_SPEED = 0b10
+    COMMON_SPEED = 0b11
+
+class MotorDirection(Enum):
+    IDLE = 0b00
+    FORWARD = 0b01
+    BACKWARD = 0b10
+    BRAKE = 0b11
+
+class BotQueries(Enum):
+    ALL_ENCODER_DATA = 0x10
+    SPECIFIC_ENCODER_DATA = 0x11
+
+    ALL_MOTOR_CURRENT = 0x20
+    SPECIFIC_MOTOR_CURRENT = 0x21
+
+    MOTOR_STALL_STATUS = 0x30
+    MOTOR_DISCONNECT_STATUS = 0x31
+
+    IMU_ACCELERATION = 0x40
+    IMU_GYROSCOPE = 0x41
+    IMU_MAGNETIC = 0x42
+    IMU_QUATERNION = 0x43
+
+    BATTERY_VOLTAGE = 0x50
+
+class BotDirections(Enum):
+    FRONT = 0
+    BACK = 1
+    ROTATE_CLOCKWISE = 2
+    ROTATE_COUNTERCLOCKWISE = 3
+    FRONT_LEFT = 4
+    FRONT_RIGHT = 5
+    BACK_LEFT = 6
+    BACK_RIGHT = 7
