@@ -5,6 +5,8 @@ import time
 
 import int_brain.enums
 
+DELAY = 0
+
 with smbus2.SMBus(1) as bus:
 
     bot = int_brain.core.IntBrain(bus)
@@ -12,7 +14,7 @@ with smbus2.SMBus(1) as bus:
     bot.set_motor_mode(
         enable=True,
         speed=int_brain.enums.MotorSpeedMode.COMMAND_SPEED,
-        safety=int_brain.enums.MotorSafetyMode.UNSAFE
+        safety=int_brain.enums.MotorSafetyMode.PROTECT_DISCONNECT
     )
 
     time.sleep(0.1)
@@ -30,12 +32,12 @@ with smbus2.SMBus(1) as bus:
     while 1:
         for i in range(0, 255, 5):
             bot.set_motor_speeds([i, i, i, i])
-            time.sleep(0.1)
-            print(bot.request_data(request_type=int_brain.enums.BotQueries.ALL_MOTOR_CURRENT))
-            time.sleep(0.1)
+            time.sleep(DELAY)
+            print(f"{i:03}: {bot.request_data(request_type=int_brain.enums.BotQueries.ALL_MOTOR_CURRENT)}")
+            time.sleep(DELAY)
 
-        for i in range(255, 0, -5):
+        for i in range(255, -1, -5):
             bot.set_motor_speeds([i, i, i, i])
-            time.sleep(0.1)
-            print(bot.request_data(request_type=int_brain.enums.BotQueries.ALL_MOTOR_CURRENT))
-            time.sleep(0.1)
+            time.sleep(DELAY)
+            print(f"{i:03}: {bot.request_data(request_type=int_brain.enums.BotQueries.ALL_MOTOR_CURRENT)}")
+            time.sleep(DELAY)
