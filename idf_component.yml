@@ -1,0 +1,5 @@
+version: "0.0.1"
+description: "SDK for a robot based on the Integrated Brain PCB."
+maintainers:
+  - Eccentric Orange <eccentric.orange2@gmail.com>
+license: "MIT"
