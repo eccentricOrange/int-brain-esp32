@@ -1,6 +1,13 @@
+"""Integrated Brain Core
+- define few default constants
+- provide the main class `IntBrain`
+- handle I2C initialization and communication
+- parse received data
+"""
+
 import smbus2
-import int_brain.registers as registers
-import int_brain.enums as enums
+from . import registers
+from . import enums
 
 ESP32_SLAVE_ADDRESS = 0x30
 STANDARD_SBC_RECEIVE_DATA_LENGTH = 16
@@ -9,6 +16,7 @@ NUMBER_OF_MOTORS = 4
 
 
 class IntBrain():
+    """Main class for the Integrated Brain SBC"""
 
     motor_stall_status = [False] * NUMBER_OF_MOTORS
     motor_disconnect_status = [False] * NUMBER_OF_MOTORS
@@ -17,22 +25,56 @@ class IntBrain():
         self.bus = bus
         self.address = address
 
-    def request_raw_data(self, register: int, length: int = STANDARD_SBC_RECEIVE_DATA_LENGTH):
+    def __convert_bytes_to_ints(self, data: list[int], length: int = 4 * NUMBER_OF_MOTORS) -> list[int]:
+        """
+        Convert a list of bytes to a list of integers
+        - data: the list of bytes to convert. each integer should be 4 bytes long
+        - length: the number of bytes to convert to an integer (default `4 * NUMBER_OF_MOTORS`)
+
+        Returns a list of integers
+        """
+
+        return [
+            int.from_bytes(data[i:i+4], byteorder='little', signed=True)
+            for i in range(0, length, 4)
+        ]
+
+    def request_raw_data(self, register: int, length: int = STANDARD_SBC_RECEIVE_DATA_LENGTH) -> list[int]:
+        """
+        Request raw data from the ESP32
+        - register: the pseudo register to read from
+        - length: the number of bytes to read (default `STANDARD_SBC_RECEIVE_DATA_LENGTH`)
+        
+        Does not process the data in any way, returns an array of bytes (integers)
+        """
+
         return self.bus.read_i2c_block_data(self.address, register, length)
 
     def send_raw_data(self, register: int, data: list[int]):
+        """
+        Send raw data to the ESP32
+        - register: the pseudo register to write to
+        - data: the list of bytes to write
+
+        Pads the data with zeros to `STANDARD_SBC_SEND_DATA_LENGTH` if necessary
+        """
+
         padded_data = data + [0] * (STANDARD_SBC_SEND_DATA_LENGTH - len(data))
         self.bus.write_i2c_block_data(self.address, register, padded_data)
     
     def request_data(self, request_type: enums.BotQueries, motor_index: int = None):
+        """
+        Request processed data from the ESP32
+        - request_type: the type of data to request
+        - motor_index: the index of the motor to request data from (default `None`)
+
+        Returns the requested data in a processed form.
+        """
 
         if request_type == enums.BotQueries.ALL_ENCODER_DATA:
             raw_encoder_data = self.request_raw_data(registers.REQUEST_ALL_ENCODER_ADDRESS)
 
-            return [
-                int.from_bytes(raw_encoder_data[i:i+4], byteorder='little', signed=True)
-                for i in range(0, len(raw_encoder_data), 4)
-            ]
+            return self.__convert_bytes_to_ints(raw_encoder_data)
         
         elif request_type == enums.BotQueries.SPECIFIC_ENCODER_DATA:
 
@@ -40,11 +82,9 @@ class IntBrain():
                 raise ValueError("Motor index not provided")
             
             if 0 < motor_index < (NUMBER_OF_MOTORS - 1):
-                return int.from_bytes(
-                    self.request_raw_data(registers.REQUEST_INDIVIDUAL_ENCODER_FIRST_ADDRESS + motor_index)[:4],
-                    byteorder='little',
-                    signed=True
-                )
+                raw_encoder_data = self.request_raw_data(registers.REQUEST_INDIVIDUAL_ENCODER_FIRST_ADDRESS + motor_index)
+
+                return self.__convert_bytes_to_ints(raw_encoder_data, 4)[0]
             
             else:
                 raise ValueError("Motor index out of range")
@@ -52,10 +92,7 @@ class IntBrain():
         elif request_type == enums.BotQueries.ALL_MOTOR_CURRENT:
             raw_current_data = self.request_raw_data(registers.REQUEST_ALL_MOTOR_CURRENT_ADDRESS)
 
-            return [
-                int.from_bytes(raw_current_data[i:i+4], byteorder='little', signed=True)
-                for i in range(0, len(raw_current_data), 4)
-            ]
+            return self.__convert_bytes_to_ints(raw_current_data)
         
         elif request_type == enums.BotQueries.SPECIFIC_MOTOR_CURRENT:
                 
@@ -63,11 +100,9 @@ class IntBrain():
                     raise ValueError("Motor index not provided")
                 
                 if 0 < motor_index < (NUMBER_OF_MOTORS - 1):
-                    return int.from_bytes(
-                        self.request_raw_data(registers.REQUEST_INDIVIDUAL_MOTOR_CURRENT_FIRST_ADDRESS + motor_index)[0:4],
-                        byteorder='little',
-                        signed=True
-                    )
+                    raw_current_data = self.request_raw_data(registers.REQUEST_INDIVIDUAL_MOTOR_CURRENT_FIRST_ADDRESS + motor_index)
+
+                    return self.__convert_bytes_to_ints(raw_current_data, 4)[0]
                 
                 else:
                     raise ValueError("Motor index out of range")
@@ -89,11 +124,9 @@ class IntBrain():
             return self.motor_disconnect_status
         
         elif request_type == enums.BotQueries.BATTERY_VOLTAGE:
-            return int.from_bytes(
-                self.request_raw_data(registers.REQUEST_BATTERY_VOLTAGE_ADDRESS)[0:4],
-                byteorder='little',
-                signed=False
-            )
+            raw_voltage_data = self.request_raw_data(registers.REQUEST_BATTERY_VOLTAGE_ADDRESS)
+
+            return self.__convert_bytes_to_ints(raw_voltage_data, 4)[0]
         
         else:
             raise ValueError("Invalid request type")
