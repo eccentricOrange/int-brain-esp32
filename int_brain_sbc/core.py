@@ -73,7 +73,6 @@ class IntBrain():
 
         if request_type == enums.BotQueries.ALL_ENCODER_DATA:
             raw_encoder_data = self.request_raw_data(registers.REQUEST_ALL_ENCODER_ADDRESS)
-
             return self.__convert_bytes_to_ints(raw_encoder_data)
         
         elif request_type == enums.BotQueries.SPECIFIC_ENCODER_DATA:
@@ -91,7 +90,6 @@ class IntBrain():
             
         elif request_type == enums.BotQueries.ALL_MOTOR_CURRENT:
             raw_current_data = self.request_raw_data(registers.REQUEST_ALL_MOTOR_CURRENT_ADDRESS)
-
             return self.__convert_bytes_to_ints(raw_current_data)
         
         elif request_type == enums.BotQueries.SPECIFIC_MOTOR_CURRENT:
@@ -111,7 +109,7 @@ class IntBrain():
             raw_stall_data = self.request_raw_data(registers.REQUEST_ALL_MOTOR_STALL_ADDRESS)[0]
 
             for i in range(NUMBER_OF_MOTORS):
-                self.motor_stall_status[i] = bool(raw_stall_data & (1 << i))
+                self.motor_stall_status[i] = bool(raw_stall_data & (1 << (i*2)))
 
             return self.motor_stall_status
         
@@ -119,13 +117,12 @@ class IntBrain():
             raw_disconnect_data = self.request_raw_data(registers.REQUEST_ALL_MOTOR_DISCONNECT_ADDRESS)[0]
 
             for i in range(NUMBER_OF_MOTORS):
-                self.motor_disconnect_status[i] = bool(raw_disconnect_data & (1 << i))
+                self.motor_disconnect_status[i] = bool(raw_disconnect_data & (1 << (i*2)))
 
             return self.motor_disconnect_status
         
         elif request_type == enums.BotQueries.BATTERY_VOLTAGE:
             raw_voltage_data = self.request_raw_data(registers.REQUEST_BATTERY_VOLTAGE_ADDRESS)
-
             return self.__convert_bytes_to_ints(raw_voltage_data, 4)[0]
         
         else:
@@ -137,6 +134,15 @@ class IntBrain():
             speed: enums.MotorSpeedMode = enums.MotorSpeedMode.COMMAND_SPEED,
             enable: bool = True
     ):
+        """
+        Set the motor mode
+        - safety: the safety mode to set (default `MotorSafetyMode.UNSAFE`)
+        - speed: the speed mode to set (default `MotorSpeedMode.COMMAND_SPEED`)
+        - enable: whether to enable the motors (default `True`)
+        
+        Creates a register byte and sends it to the ESP32
+        """
+
         motor_mode = 0
 
         motor_mode |= safety.value
@@ -146,6 +152,12 @@ class IntBrain():
         self.send_raw_data(registers.SET_MOTOR_MODE_ADDRESS, [motor_mode])
 
     def set_motor_speeds(self, speeds: list[int]):
+        """
+        Set the speeds of all motors
+        - speeds: the list of speeds to set for each motor
+        
+        Checks the number of speeds and their values before sending the data.
+        """
         if len(speeds) != NUMBER_OF_MOTORS:
             raise ValueError(f"Invalid number of motor speeds {len(speeds)}")
         
@@ -156,6 +168,14 @@ class IntBrain():
         self.send_raw_data(registers.SET_MOTOR_SPEED_ADDRESS, speeds)
 
     def set_individual_motor_speed(self, motor_index: int, speed: int):
+        """
+        Set the speed of an individual motor
+        - motor_index: the index of the motor to set the speed for
+        - speed: the speed to set for the motor
+
+        Checks the motor index and speed value before sending the data.
+        """
+
         if 0 < motor_index < (NUMBER_OF_MOTORS - 1):
             if speed < 0 or speed > 255:
                 raise ValueError(f"Invalid motor speed value {speed}")
