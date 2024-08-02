@@ -186,6 +186,13 @@ class IntBrain():
             raise ValueError("Motor index out of range")
         
     def set_motor_directions(self, directions: list[enums.MotorDirection]):
+        """
+        Set the directions of all motors
+        - directions: the list of directions to set for each motor
+
+        Checks the number of directions before sending the data and creates a register byte.
+        """
+
         if len(directions) != NUMBER_OF_MOTORS:
             raise ValueError(f"Invalid number of motor directions {len(directions)}")
         
@@ -197,6 +204,14 @@ class IntBrain():
         self.send_raw_data(registers.SET_MOTOR_DIRECTION_ADDRESS, [motor_directions])
 
     def set_individual_motor_direction(self, motor_index: int, direction: enums.MotorDirection):
+        """
+        Set the direction of an individual motor
+        - motor_index: the index of the motor to set the direction for
+        - direction: the direction to set for the motor
+
+        Creates a register byte and sends it to the ESP32.
+        """
+
         if 0 < motor_index < (NUMBER_OF_MOTORS - 1):
             self.bus.write_byte_data(self.address, registers.SET_MOTOR_INDIVIDUAL_DIRECTION_FIRST_ADDRESS + motor_index, direction.value)
         
@@ -204,6 +219,24 @@ class IntBrain():
             raise ValueError("Motor index out of range")
         
     def send_standard_motor_data(self, directions: list[enums.MotorDirection], speeds: list[int]):
+        """
+        Send standard motor data to the ESP32
+        - directions: the list of directions to set for each motor
+        - speeds: the list of speeds to set for each motor
+
+        Checks the number of directions and speeds before sending the data.
+        """
+
+        if len(directions) != NUMBER_OF_MOTORS:
+            raise ValueError(f"Invalid number of motor directions {len(directions)}")
+        
+        if len(speeds) != NUMBER_OF_MOTORS:
+            raise ValueError(f"Invalid number of motor speeds {len(speeds)}")
+        
+        for speed in speeds:
+            if speed < 0 or speed > 255:
+                raise ValueError(f"Invalid motor speed value {speed}")
+
         motor_directions = 0
 
         for i, direction in enumerate(directions):
@@ -212,6 +245,18 @@ class IntBrain():
         self.send_raw_data(registers.SET_MOTOR_STANDARD_DATA_ADDRESS, [motor_directions] + speeds)
 
     def send_individual_standard_motor_data(self, motor_index: int, direction: enums.MotorDirection, speed: int):
+        """
+        Send standard motor data to the ESP32 for an individual motor
+        - motor_index: the index of the motor to set the data for
+        - direction: the direction to set for the motor
+        - speed: the speed to set for the motor
+
+        Checks the motor index and speed value before sending the data.
+        """
+
+        if speed < 0 or speed > 255:
+            raise ValueError(f"Invalid motor speed value {speed}")
+
         if 0 < motor_index < (NUMBER_OF_MOTORS - 1):
             self.bus.write_i2c_block_data(self.address, registers.SET_MOTOR_INDIVIDUAL_STANDARD_DATA_FIRST_ADDRESS + motor_index, [direction.value, speed])
         
@@ -219,9 +264,21 @@ class IntBrain():
             raise ValueError("Motor index out of range")
         
     def set_robot_direction(self, direction: enums.BotDirections):
+        """
+        Set the direction of the robot
+        - direction: the direction to set for the robot
+        """
+
         self.send_raw_data(self.address, registers.SET_ROBOT_DIRECTION_ADDRESS, [direction.value])
 
     def set_common_speed(self, speed: int):
+        """
+        Set the common speed of the robot
+        - speed: the speed to set for the robot (applies to all motors)
+
+        Checks the speed value before sending the data.
+        """
+        
         if speed < 0 or speed > 255:
             raise ValueError(f"Invalid common speed value {speed}")
         
