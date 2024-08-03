@@ -124,13 +124,14 @@ esp_err_t command_bot_array(const motor_t motors[NUMBER_OF_MOTORS], uint8_t* dat
 esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]) {
     const uint8_t mask = 0b11;
     uint8_t filtered_motor_speeds[NUMBER_OF_MOTORS];
-
     for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
-        filtered_motor_speeds[i] = motor_PWM_mode_filter(_motor_speeds[i]);
+        filtered_motor_speeds[i] = motor_PWM_mode_filter(_motor_speeds[i], (_motor_mode & 0b00001100) >> 2);
     }
 
-    switch (_motor_mode & 0b00000011) {
-        case 0b00:
+    motor_safety_mode_t safety_mode = _motor_mode & 0b00000011
+
+    switch (safety_mode) {
+        case UNSAFE:
 
             // unsafe
             for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
@@ -143,7 +144,7 @@ esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]) {
 
             break;
 
-        case 0b10:
+        case PROTECT_DISCONNECT:
 
             // Protect disconnect
             for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
@@ -169,6 +170,80 @@ esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]) {
         default:
             for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
                 esp_err_t status = PCA_command_motor_with_LED(motors[i], _motor_directions[i], filtered_motor_speeds[i]);
+
+                if (status != ESP_OK) {
+                    return status;
+                }
+            }
+
+            break;
+    }
+
+    return ESP_OK;
+}
+
+/** @brief Command all motors with individual speeds and directions, but you can choose the safety mode and speed mode.
+ *  @param motors Array of `motor_t` structures, the pin-outs.
+ *  @param safety_mode Safety mode to use.
+ *  @param speed_mode Speed mode to use.
+ *  @param motor_speeds Array of PWM values for each motor.
+ *  @param motor_directions Array of directions for each motor.
+ *  @return `ESP_OK` if successful.
+ */
+esp_err_t command_all_motors_safe(
+    const motor_t motors[NUMBER_OF_MOTORS],
+    const motor_safety_mode_t safety_mode,
+    const motor_speed_mode_t speed_mode,
+    const uint8_t* motor_speeds,
+    const motor_direction_t* motor_directions
+) {
+    const uint8_t mask = 0b11;
+    uint8_t filtered_motor_speeds[NUMBER_OF_MOTORS];
+
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        filtered_motor_speeds[i] = motor_PWM_mode_filter(motor_speeds[i], speed_mode);
+    }
+
+    switch (safety_mode) {
+        case UNSAFE:
+
+            // unsafe
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                esp_err_t status = PCA_command_motor_with_LED(motors[i], motor_directions[i], filtered_motor_speeds[i]);
+
+                if (status != ESP_OK) {
+                    return status;
+                }
+            }
+
+            break;
+
+        case PROTECT_DISCONNECT:
+
+            // Protect disconnect
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                uint8_t disconnected_status = _motor_disconnect_status & (mask << (i * MOTOR_NUMBER_OF_BITS_PER_MOTOR));
+
+                if (disconnected_status == 0b00) {
+                    esp_err_t status = PCA_command_motor_with_LED(motors[i], motor_directions[i], filtered_motor_speeds[i]);
+
+                    if (status != ESP_OK) {
+                        return status;
+                    }
+                } else {
+                    esp_err_t status = PCA_command_motor_with_LED(motors[i], BRAKE, 0);
+
+                    if (status != ESP_OK) {
+                        return status;
+                    }
+                }
+            }
+
+            break;
+
+        default:
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                esp_err_t status = PCA_command_motor_with_LED(motors[i], motor_directions[i], filtered_motor_speeds[i]);
 
                 if (status != ESP_OK) {
                     return status;

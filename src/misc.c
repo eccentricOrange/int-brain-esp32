@@ -103,18 +103,18 @@ void direction_to_PWMs(motor_direction_t direction, uint8_t PWM_in, uint8_t* PWM
  *  @param command_PWM PWM value to filter.
  *  @return Filtered PWM value.
  */
-uint8_t motor_PWM_mode_filter(uint8_t command_PWM) {
-    switch ((_motor_mode & 0b00001100) >> 2) {
-        case 0b00:
+uint8_t motor_PWM_mode_filter(uint8_t command_PWM, motor_speed_mode_t speed_mode) {
+    switch (speed_mode) {
+        case STOP:
             return 0;
 
-        case 0b01:
+        case MAX:
             return PCA_MAX_PWM_DUTY;
 
-        case 0b10:
+        case COMMAND:
             return command_PWM;
 
-        case 0b11:
+        case COMMON:
             return _common_speed;
 
         default:

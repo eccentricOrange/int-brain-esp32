@@ -54,14 +54,18 @@ enum motor_direction_t {
     BRAKE = 0b11,
 } typedef motor_direction_t;
 
-struct motor_t {
-    uint8_t output_pin_1;                    // PCA driver pin
-    uint8_t output_pin_2;                    // PCA driver pin
-    uint8_t encoder_pin_1;                   // GPIO pin
-    uint8_t encoder_pin_2;                   // GPIO pin
-    uint8_t LED_pin;                         // PCA driver pin
-    uint8_t current_sense_pin;               // GPIO pin (ADC1),
-    pcnt_unit_handle_t encoder_unit_handle;  // PCNT unit handle [DO NOT INITIALIZE]
+enum motor_safety_mode_t {
+    UNSAFE = 0b00,
+    PROTECT_STALL = 0b01,
+    PROTECT_DISCONNECT = 0b10,
+    PROTECT_STALL_AND_DISCONNECT = 0b11,
+} typedef motor_safety_mode_t;
+
+enum motor_speed_mode_t {
+    STOP = 0b00,
+    MAX = 0b01,
+    COMMAND = 0b10,
+    COMMON = 0b11,
 } typedef motor_t;
 
 enum bot_direction_t {
@@ -238,7 +242,7 @@ extern esp_err_t PCA_set_moe_by_register();
 extern esp_err_t PCA_init(i2c_master_bus_handle_t bus_handle);
 
 extern void direction_to_PWMs(motor_direction_t direction, uint8_t PWM_in, uint8_t* PWM_1_out, uint8_t* PWM_2_out);
-extern uint8_t motor_PWM_mode_filter(uint8_t command_PWM);
+extern uint8_t motor_PWM_mode_filter(uint8_t command_PWM, motor_speed_mode_t speed_mode);
 
 extern esp_err_t PCA_command_LED(motor_t motor, uint8_t PWM);
 extern esp_err_t PCA_command_motor_with_LED(motor_t motor, motor_direction_t direction, uint8_t PWM);
@@ -265,6 +269,13 @@ extern esp_err_t command_bot(const motor_t motors[NUMBER_OF_MOTORS], bot_directi
 extern esp_err_t command_bot_same_speed(const motor_t motors[NUMBER_OF_MOTORS], bot_direction_t bot_direction, uint8_t PWM);
 extern esp_err_t command_bot_array(const motor_t motors[NUMBER_OF_MOTORS], uint8_t* data);
 extern esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]);
+extern esp_err_t command_all_motors_safe(
+    const motor_t motors[NUMBER_OF_MOTORS],
+    const motor_safety_mode_t safety_mode,
+    const motor_speed_mode_t speed_mode,
+    const uint8_t* motor_speeds,
+    const motor_direction_t* motor_directions
+);
 
 /**
  *  @section SBC I2C Function prototypes
