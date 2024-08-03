@@ -271,10 +271,10 @@ extern esp_err_t command_bot_array(const motor_t motors[NUMBER_OF_MOTORS], uint8
 extern esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]);
 extern esp_err_t command_all_motors_safe(
     const motor_t motors[NUMBER_OF_MOTORS],
-    const motor_safety_mode_t safety_mode,
-    const motor_speed_mode_t speed_mode,
-    const uint8_t* motor_speeds,
-    const motor_direction_t* motor_directions
+    motor_safety_mode_t safety_mode,
+    motor_speed_mode_t speed_mode,
+    uint8_t* motor_speeds,
+    motor_direction_t* motor_directions
 );
 
 /**
