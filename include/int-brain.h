@@ -47,6 +47,16 @@ extern const uint8_t PCA_DRIVER_ADDRESS;
 /**
  *  @section Types
  */
+struct motor_t {
+    uint8_t output_pin_1;                    // PCA driver pin
+    uint8_t output_pin_2;                    // PCA driver pin
+    uint8_t encoder_pin_1;                   // GPIO pin
+    uint8_t encoder_pin_2;                   // GPIO pin
+    uint8_t LED_pin;                         // PCA driver pin
+    uint8_t current_sense_pin;               // GPIO pin (ADC1),
+    pcnt_unit_handle_t encoder_unit_handle;  // PCNT unit handle [DO NOT INITIALIZE]
+} typedef motor_t;
+
 enum motor_direction_t {
     IDLE = 0b00,
     FORWARD = 0b01,
