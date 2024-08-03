@@ -76,7 +76,7 @@ enum motor_speed_mode_t {
     MAX = 0b01,
     COMMAND = 0b10,
     COMMON = 0b11,
-} typedef motor_t;
+} typedef motor_speed_mode_t;
 
 enum bot_direction_t {
     FRONT = 0,
