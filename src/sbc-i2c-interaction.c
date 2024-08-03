@@ -1,6 +1,6 @@
 #include "int-brain.h"
 
-/** @file SBC I2C Interaction
+/** @file sbc-i2c-interaction.c
  *  @brief This file contains all the necessary functions to interact with the Single Board Computer (SBC) via I2C1.
  */
 

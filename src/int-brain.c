@@ -1,6 +1,6 @@
 #include "int-brain.h"
 
-/** @file Integrated Brain Source file
+/** @file int-brain.c
  * @brief Declare and initialize variables to 0.
  */
 

@@ -1,13 +1,12 @@
 #include "int-brain.h"
 
-/** @file PCA Driver
+/** @file pca-driver.c
  *  @brief This file contains the functions to handle the PCA9635 PWM demux.
  */
 
-// for a high PWM: the motor is fast but the LED is dim
-// for a low PWM: the motor is slow but the LED is bright
-// correct this by reversing the PWM for the LED
-// also remap the LED's PWM to leverage logarithmic perception
+/// @brief Fix the points below by reversing the PWM for the LED. Also remap the LED's PWM to leverage logarithmic perception
+/// * for a high PWM: the motor is fast but the LED is dim
+/// * for a low PWM: the motor is slow but the LED is bright
 #define calculate_LED_PWM(PWM) (-(PCA_MAX_PWM_DUTY / PCA_MAX_LED_PWM) * (PWM - PCA_MAX_PWM_DUTY))
 
 /** @brief Initialize the PCA9635 driver as an I2C device.

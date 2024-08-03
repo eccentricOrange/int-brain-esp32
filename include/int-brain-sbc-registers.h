@@ -1,5 +1,9 @@
 #pragma once
 
+/** @file int-brain-sbc-registers.h
+ * @brief Declare the pseudo I2C registers for the ESP32 to communicate with the Raspberry Pi.
+ */
+
 /**
  *  @section Raspberry Pi request from ESP32
  */

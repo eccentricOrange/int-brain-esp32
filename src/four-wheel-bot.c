@@ -1,6 +1,6 @@
 #include "int-brain.h"
 
-/** @file Four-wheel bot
+/** @file four-wheel-bot.c
  *  @brief This file contains the functions to control a four-wheel bot (instead of dealing motor-by-motor).
  */
 

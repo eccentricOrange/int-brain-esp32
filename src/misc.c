@@ -1,6 +1,6 @@
 #include "int-brain.h"
 
-/** @file Miscellaneous
+/** @file misc.c
  *  @brief Mostly deals with updating sensor registers and converting data between formats.
  */
 

@@ -1,6 +1,6 @@
 #include "int-brain.h"
 
-/** @file Motor current sense
+/** @file motor-current-sense.c
  *  @brief This file contains the functions to read the current of the motors.
  */
 

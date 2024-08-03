@@ -1,6 +1,6 @@
 #include "int-brain.h"
 
-/** @file Motor encoder
+/** @file motor-encoder.c
  *  @brief This file contains the functions to read the encoder of the motors.
  */
 
