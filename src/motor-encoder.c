@@ -5,9 +5,10 @@
  */
 
 /** @brief Initialize the encoder for a motor.
- * @param motor Motor to initialize the encoder for.
- * @param pcnt_unit_handle Pointer to the PCNT unit handle.
- * @return `ESP_OK` if successful.
+ *  @attention Direct task function
+ *  @param motor Motor to initialize the encoder for.
+ *  @param pcnt_unit_handle Pointer to the PCNT unit handle.
+ *  @return `ESP_OK` if successful.
  */
 esp_err_t _encoder_init(motor_t motor, pcnt_unit_handle_t* pcnt_unit_handle) {
     esp_err_t status;
@@ -94,9 +95,10 @@ esp_err_t _encoder_init(motor_t motor, pcnt_unit_handle_t* pcnt_unit_handle) {
 }
 
 /** @brief Initialize the encoder for all motors.
- * @param motors Array of `motor_t` structures, the pin-outs.
- * @param number_of_motors Number of motors.
- * @return `ESP_OK` if successful.
+ *  @attention Direct task function
+ *  @param motors Array of `motor_t` structures, the pin-outs.
+ *  @param number_of_motors Number of motors.
+ *  @return `ESP_OK` if successful.
  */
 esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors) {
     esp_err_t status;
@@ -114,8 +116,9 @@ esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors) {
 }
 
 /** @brief Read the encoder count for a motor.
- * @param motor Motor to read the encoder count for.
- * @return The encoder count.
+ *  @attention Direct task function
+ *  @param motor Motor to read the encoder count for.
+ *  @return The encoder count.
  */
 int encoder_read(motor_t motor) {
     int count;

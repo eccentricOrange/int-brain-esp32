@@ -11,6 +11,7 @@
 #define calculate_LED_PWM(PWM) (-(PCA_MAX_PWM_DUTY / PCA_MAX_LED_PWM) * (PWM - PCA_MAX_PWM_DUTY))
 
 /** @brief Initialize the PCA9635 driver as an I2C device.
+ *  @attention Direct task function
  *  @param bus_handle I2C bus handle.
  *  @return `ESP_OK` if successful.
  */
@@ -24,6 +25,7 @@ esp_err_t _PCA_i2c_init(i2c_master_bus_handle_t bus_handle) {
 }
 
 /** @brief Set the register of the PCA9635 driver.
+ *  @attention Direct task function (in this case "register" a register on the PCA9635)
  *  @param register_address Register address to write to.
  *  @param data Data to write to the register.
  *  @return `ESP_OK` if successful.
@@ -34,6 +36,7 @@ esp_err_t _PCA_set_register(uint8_t register_address, uint8_t data) {
 }
 
 /** @brief Enable the LED drivers on the PCA9635 driver byt setting their registers.
+ *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t _PCA_enable_drivers() {
@@ -47,6 +50,7 @@ esp_err_t _PCA_enable_drivers() {
 }
 
 /** @brief Command a motor and an LED with a PWM value. LED PWMs are re-scaled and motor PWMs are converted based on direction.
+ *  @attention Direct task function
  *  @param motor Motor to command.
  *  @param direction Direction to move the motor.
  *  @param PWM PWM value for the motor.
@@ -81,6 +85,7 @@ esp_err_t PCA_command_motor_with_LED(motor_t motor, motor_direction_t direction,
 }
 
 /** @brief Command a motor with a PWM value, ignoring the LED. Motor PWMs are converted based on direction.
+ *  @attention Direct task function
  *  @param motor Motor to command.
  *  @param direction Direction to move the motor.
  *  @param PWM PWM value for the motor.
@@ -109,6 +114,7 @@ esp_err_t PCA_command_motor(motor_t motor, motor_direction_t direction, uint8_t 
 }
 
 /** @brief Command an LED with a PWM value.
+ *  @attention Direct task function
  *  @param motor Motor the LED indicates for.
  *  @param PWM PWM value for the LED.
  *  @return `ESP_OK` if successful.
@@ -119,6 +125,7 @@ esp_err_t PCA_command_LED(motor_t motor, uint8_t PWM) {
 }
 
 /** @brief Initialize the motor output enable (MOE) pin as an output. This enables/disables the PCA9635 driver.
+ *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t _PCA_MOE_init() {
@@ -134,6 +141,7 @@ esp_err_t _PCA_MOE_init() {
 }
 
 /** @brief Enable the PCA9635 driver by setting the motor output enable (MOE) pin low.
+ *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t PCA_enable() {
@@ -141,6 +149,7 @@ esp_err_t PCA_enable() {
 }
 
 /** @brief Disable the PCA9635 driver by setting the motor output enable (MOE) pin high.
+ *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t PCA_disable() {
@@ -148,6 +157,7 @@ esp_err_t PCA_disable() {
 }
 
 /** @brief Set the motor output enable (MOE) pin based on the motor mode register.
+ *  @attention Pseudo register-based function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t PCA_set_moe_by_register() {
@@ -159,6 +169,7 @@ esp_err_t PCA_set_moe_by_register() {
 }
 
 /** @brief Initialize the PCA9635 driver, by collecting many of the initialization functions defined in this file.
+ *  @attention Direct task function
  *  @param bus_handle I2C bus handle.
  *  @return `ESP_OK` if successful.
  */

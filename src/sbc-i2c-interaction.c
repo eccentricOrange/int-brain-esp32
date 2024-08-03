@@ -5,6 +5,7 @@
  */
 
 /** @brief I2C Receive callback for the SBC.
+ *  @attention Pseudo register-based function
  *  @param device_handle Handle of the I2C device.
  *  @param edata Event data of the I2C event.
  *  @param user_data User data to pass to the callback.
@@ -16,6 +17,7 @@ IRAM_ATTR bool _sbc_i2c1_receive_callback(i2c_slave_dev_handle_t device_handle, 
 }
 
 /** @brief Register the callback for the SBC I2C1.
+ *  @attention Pseudo register-based function
  *  @param device_handle Handle of the I2C device.
  *  @return `ESP_OK` if successful.
  */
@@ -29,6 +31,7 @@ esp_err_t sbc_i2c1_register_callback(i2c_slave_dev_handle_t device_handle) {
 }
 
 /** @brief Read data from the SBC I2C1 and dump it to `_sbc_i2c1_receive_buffer`.
+ *  @attention Pseudo register-based function
  *  @param device_handle Handle of the I2C device.
  *  @param on_receive_callback Callback to call when data is received.
  *  @return `ESP_OK` if successful.
@@ -46,6 +49,7 @@ esp_err_t sbc_i2c1_read_data(i2c_slave_dev_handle_t device_handle, esp_err_t* on
 }
 
 /** @brief Split an int (4 bytes) into 4 `uint8_t` bytes and write it to a buffer.
+ *  @attention Direct task function
  *  @param buffer Buffer to write to.
  *  @param value Value to write.
  *  @param index Buffer index to write to.
@@ -57,6 +61,7 @@ inline void _write_int_to_i2c_buffer(uint8_t* buffer, int value, size_t index) {
 }
 
 /** @brief Parse the data received from the SBC I2C1. Will check the first element for the "register". If data ws received from the SBC, it will be written to the relevant variable; if data was requested, it will be written to the send buffer `_sbc_i2c1_send_buffer`.
+ *  @attention Pseudo register-based function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t sbc_i2c_parse_data() {

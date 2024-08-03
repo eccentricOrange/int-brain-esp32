@@ -240,64 +240,65 @@ extern adc_cali_handle_t _adc_motors_cali_handle;
 /**
  *  @section PCA Function prototypes (motor command)
  */
-extern esp_err_t _PCA_set_register(uint8_t register_address, uint8_t data);
+extern esp_err_t _PCA_set_register(uint8_t register_address, uint8_t data);  // direct task function
 
-extern esp_err_t _PCA_i2c_init(i2c_master_bus_handle_t bus_handle);
-extern esp_err_t _PCA_enable_drivers();
-extern esp_err_t _PCA_MOE_init();
-extern esp_err_t PCA_enable();
-extern esp_err_t PCA_disable();
-extern esp_err_t PCA_set_moe_by_register();
+extern esp_err_t _PCA_i2c_init(i2c_master_bus_handle_t bus_handle);  // direct task function
+extern esp_err_t _PCA_enable_drivers();  // direct task function
+extern esp_err_t _PCA_MOE_init();  // direct task function
+extern esp_err_t PCA_enable();  // direct task function
+extern esp_err_t PCA_disable();  // direct task function
+extern esp_err_t PCA_set_moe_by_register();  // pseudo register-based function
 
-extern esp_err_t PCA_init(i2c_master_bus_handle_t bus_handle);
+extern esp_err_t PCA_init(i2c_master_bus_handle_t bus_handle);  // direct task function
 
-extern void direction_to_PWMs(motor_direction_t direction, uint8_t PWM_in, uint8_t* PWM_1_out, uint8_t* PWM_2_out);
-extern uint8_t motor_PWM_mode_filter(uint8_t command_PWM, motor_speed_mode_t speed_mode);
+extern void direction_to_PWMs(motor_direction_t direction, uint8_t PWM_in, uint8_t* PWM_1_out, uint8_t* PWM_2_out);  // direct task function
+extern uint8_t motor_PWM_mode_filter(uint8_t command_PWM, motor_speed_mode_t speed_mode);  // direct task function
 
-extern esp_err_t PCA_command_LED(motor_t motor, uint8_t PWM);
-extern esp_err_t PCA_command_motor_with_LED(motor_t motor, motor_direction_t direction, uint8_t PWM);
-extern esp_err_t PCA_command_motor(motor_t motor, motor_direction_t direction, uint8_t PWM);
+extern esp_err_t PCA_command_LED(motor_t motor, uint8_t PWM);  // direct task function
+extern esp_err_t PCA_command_motor_with_LED(motor_t motor, motor_direction_t direction, uint8_t PWM);  // direct task function
+extern esp_err_t PCA_command_motor(motor_t motor, motor_direction_t direction, uint8_t PWM);  // direct task function
 
 /**
  *  @section ADC Function prototypes (motor current sense)
  */
-extern esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors);
-extern esp_err_t _ADC_channels_config(motor_t* motors, size_t number_of_motors);
-extern int ADC_read_motor_current(motor_t motor);
+extern esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors);  // direct task function
+extern esp_err_t _ADC_channels_config(motor_t* motors, size_t number_of_motors);  // direct task function
+extern int ADC_read_motor_current(motor_t motor);  // direct task function
 
 /**
  *  @section PCNT Function prototypes (motor encoder)
  */
-extern esp_err_t _encoder_init(motor_t motor, pcnt_unit_handle_t* pcnt_unit_handle);
-extern esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors);
-extern int encoder_read(motor_t motor);
+extern esp_err_t _encoder_init(motor_t motor, pcnt_unit_handle_t* pcnt_unit_handle);  // direct task function
+extern esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors);  // direct task function
+extern int encoder_read(motor_t motor);  // direct task function
 
 /**
  *  @section Four-wheel bot Function prototypes
  */
-extern esp_err_t command_bot(const motor_t motors[NUMBER_OF_MOTORS], bot_direction_t bot_direction, uint8_t PWM[NUMBER_OF_MOTORS]);
-extern esp_err_t command_bot_same_speed(const motor_t motors[NUMBER_OF_MOTORS], bot_direction_t bot_direction, uint8_t PWM);
-extern esp_err_t command_bot_array(const motor_t motors[NUMBER_OF_MOTORS], uint8_t* data);
-extern esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]);
+extern esp_err_t command_bot(const motor_t motors[NUMBER_OF_MOTORS], bot_direction_t bot_direction, uint8_t PWM[NUMBER_OF_MOTORS]);  // direct task function
+extern esp_err_t command_bot_same_speed(const motor_t motors[NUMBER_OF_MOTORS], bot_direction_t bot_direction, uint8_t PWM);  // direct task function
+extern esp_err_t command_bot_array(const motor_t motors[NUMBER_OF_MOTORS], uint8_t* data);  // direct task function
+extern esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]);  // pseudo register-based function
+
 extern esp_err_t command_all_motors_safe(
     const motor_t motors[NUMBER_OF_MOTORS],
     motor_safety_mode_t safety_mode,
     motor_speed_mode_t speed_mode,
     uint8_t* motor_speeds,
     motor_direction_t* motor_directions
-);
+);  // direct task function
 
 /**
  *  @section SBC I2C Function prototypes
  */
 static QueueHandle_t _sbc_i2c1_receive_queue;
 
-extern IRAM_ATTR bool _sbc_i2c1_receive_callback(i2c_slave_dev_handle_t device_handle, i2c_slave_rx_done_event_data_t *edata, void* user_data);
-extern esp_err_t sbc_i2c1_register_callback(i2c_slave_dev_handle_t device_handle);
-extern esp_err_t sbc_i2c1_read_data(i2c_slave_dev_handle_t device_handle, esp_err_t* on_receive_callback());
-extern esp_err_t sbc_i2c_parse_data();
+extern IRAM_ATTR bool _sbc_i2c1_receive_callback(i2c_slave_dev_handle_t device_handle, i2c_slave_rx_done_event_data_t *edata, void* user_data);  // direct task function
+extern esp_err_t sbc_i2c1_register_callback(i2c_slave_dev_handle_t device_handle);  // direct task function
+extern esp_err_t sbc_i2c1_read_data(i2c_slave_dev_handle_t device_handle, esp_err_t* on_receive_callback());  // pseudo register-based function
+extern esp_err_t sbc_i2c_parse_data();  // pseudo register-based function
 
-extern esp_err_t update_encoder_data(motor_t* motors);
-extern esp_err_t update_motor_current_data(motor_t* motors);
-extern esp_err_t update_motor_disconnect_status();
-extern esp_err_t update_motor_directions_from_register();
+extern esp_err_t update_encoder_data(motor_t* motors);  // pseudo register-based function
+extern esp_err_t update_motor_current_data(motor_t* motors);  // pseudo register-based function
+extern esp_err_t update_motor_disconnect_status();  // pseudo register-based function
+extern esp_err_t update_motor_directions_from_register();  // pseudo register-based function

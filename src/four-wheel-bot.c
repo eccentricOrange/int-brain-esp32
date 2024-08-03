@@ -5,6 +5,7 @@
  */
 
 /** @brief Command the bot to move in a certain direction. No protection or registers are used.
+ *  @attention Direct task function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @param bot_direction Direction to move the bot.
  *  @param PWM Array of PWM values for each motor.
@@ -90,6 +91,7 @@ esp_err_t command_bot(const motor_t motors[NUMBER_OF_MOTORS], bot_direction_t bo
 }
 
 /** @brief Command the bot to move in a certain direction with the same speed, no protection or registers are used.
+ *  @attention Direct task function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @param bot_direction Direction to move the bot.
  *  @param PWM PWM value for all motors.
@@ -101,6 +103,7 @@ esp_err_t command_bot_same_speed(const motor_t motors[NUMBER_OF_MOTORS], bot_dir
 }
 
 /** @brief Command the bot to move in a certain direction with the same speed, no protection or registers are used.
+ *  @attention Direct task function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @param data Array of data for each motor, `[direction, PWM]`.
  *  @return `ESP_OK` if successful.
@@ -118,6 +121,7 @@ esp_err_t command_bot_array(const motor_t motors[NUMBER_OF_MOTORS], uint8_t* dat
 }
 
 /** @brief Command the bot to move in a certain direction with the same speed, with protection and registers.
+ *  @attention Pseudo register-based function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @return `ESP_OK` if successful.
  */
@@ -183,6 +187,7 @@ esp_err_t command_bot_registers_safe(const motor_t motors[NUMBER_OF_MOTORS]) {
 }
 
 /** @brief Command all motors with individual speeds and directions, but you can choose the safety mode and speed mode.
+ *  @attention Direct task function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @param safety_mode Safety mode to use.
  *  @param speed_mode Speed mode to use.

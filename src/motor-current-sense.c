@@ -5,9 +5,10 @@
  */
 
 /** @brief Configure the ADC channels for the motor current sense pins.
- * @param motors Array of `motor_t` structures, the pin-outs.
- * @param number_of_motors Number of motors.
- * @return `ESP_OK` if successful.
+ *  @attention Direct task function
+ *  @param motors Array of `motor_t` structures, the pin-outs.
+ *  @param number_of_motors Number of motors.
+ *  @return `ESP_OK` if successful.
  */
 esp_err_t _ADC_channels_config(motor_t* motors, size_t number_of_motors) {
     const adc_oneshot_chan_cfg_t adc_chan_config = {
@@ -37,9 +38,10 @@ esp_err_t _ADC_channels_config(motor_t* motors, size_t number_of_motors) {
 }
 
 /** @brief Initialize the ADC for the motor current sense pins. Also calibrate the ADC.
- * @param motors Array of `motor_t` structures, the pin-outs.
- * @param number_of_motors Number of motors.
- * @return `ESP_OK` if successful.
+ *  @attention Direct task function
+ *  @param motors Array of `motor_t` structures, the pin-outs.
+ *  @param number_of_motors Number of motors.
+ *  @return `ESP_OK` if successful.
  */
 esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors) {
     const adc_oneshot_unit_init_cfg_t adc1_config = {
@@ -68,8 +70,9 @@ esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors) {
 }
 
 /** @brief Read the motor current sense pin and return the value.
- * @param motor Motor to read the current from.
- * @return The current reading.
+ *  @attention Direct task function
+ *  @param motor Motor to read the current from.
+ *  @return The current reading.
  */
 int ADC_read_motor_current(motor_t motor) {
     int voltageReading;

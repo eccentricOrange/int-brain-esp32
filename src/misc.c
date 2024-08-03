@@ -5,6 +5,7 @@
  */
 
 /** @brief Read the actual encoder values and update them in the relevant array.
+ *  @attention Pseudo register-based function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @return `ESP_OK` if successful.
  */
@@ -17,8 +18,9 @@ esp_err_t update_encoder_data(motor_t* motors) {
 }
 
 /** @brief Read the actual motor current values and update them in the relevant array.
- * @param motors Array of `motor_t` structures, the pin-outs.
- * @return `ESP_OK` if successful.
+ *  @attention Pseudo register-based function
+ *  @param motors Array of `motor_t` structures, the pin-outs.
+ *  @return `ESP_OK` if successful.
  */
 esp_err_t update_motor_current_data(motor_t* motors) {
     for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
@@ -29,6 +31,7 @@ esp_err_t update_motor_current_data(motor_t* motors) {
 }
 
 /** @brief Update the `_motor_disconnect_status` variable. A motor is disconnected if it doesn't draw a minimum current but has a minimum PWM.
+ *  @attention Pseudo register-based function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t update_motor_disconnect_status() {
@@ -47,6 +50,7 @@ esp_err_t update_motor_disconnect_status() {
 }
 
 /** @brief Update the `_motor_directions` array from the `_motor_direction_register`.
+ *  @attention Pseudo register-based function
  *  @return `ESP_OK` if successful.
  */
 esp_err_t update_motor_directions_from_register() {
@@ -58,6 +62,7 @@ esp_err_t update_motor_directions_from_register() {
 }
 
 /** @brief Convert the `motor_direction_t` style direction and the PWM for a motor into PWM values for each terminal of the motor.
+ *  @attention Direct task function
  *  @param direction Direction to move the motor.
  *  @param PWM_in PWM value for the motor.
  *  @param PWM_1_out Pointer to the PWM value for terminal 1.
@@ -100,6 +105,7 @@ void direction_to_PWMs(motor_direction_t direction, uint8_t PWM_in, uint8_t* PWM
 }
 
 /** @brief Choose the PWM value based on the motor mode.
+ *  @attention Direct task function
  *  @param command_PWM PWM value to filter.
  *  @return Filtered PWM value.
  */

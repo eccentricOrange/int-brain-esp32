@@ -21,6 +21,8 @@ In general, there are two types of functions in the component:
 
     In the interest of having a flexible system that can establish duplex (two-way) communication with an SBC, there is an extensive system of registers and state variables. Many functions write to these, and many others read from them to decide what actions to perform. You (the programmer) doesn't have the luxury of specifying the 127 (PWM) or forward (direction) as literal values in this situation.
 
+The Doxygen documentation for each function states its type, so you can easily tell which is which.
+
 ## Topics/themes
 
 *   **PCA9635 PWM Demux**
@@ -104,7 +106,6 @@ This value for this mode may simply be enabled or disabled.
 
 ## Motor direction
 The DRV8251A driver has the ability to actively brake the motor instead of letting it coast to a stop. This is done by setting the direction to brake. This gives us a total of four possible directions for each motor: idle, forward, backward, and brake.
-
 
 # I2C Scheme
 
