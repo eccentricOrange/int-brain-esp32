@@ -145,6 +145,8 @@ esp_err_t set_bot_direction(bot_direction_t direction) {
             }
             break;
     }
+
+    return ESP_OK;
 }
 
 esp_err_t publish_motor_command(motor_t* motors) {
