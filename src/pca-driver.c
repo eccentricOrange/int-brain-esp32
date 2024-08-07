@@ -1,12 +1,17 @@
 #include "int-brain.h"
 
+/// @brief Fix the points below by reversing the PWM for the LED. Also remap the LED's PWM to leverage logarithmic perception
+/// * for a high PWM: the motor is fast but the LED is dim
+/// * for a low PWM: the motor is slow but the LED is bright
+#define calculate_LED_PWM(PWM) (-(PCA_MAX_PWM_DUTY / PCA_MAX_LED_PWM) * (PWM - PCA_MAX_PWM_DUTY))
+
 /** @brief Initialize the PCA9635 driver, by collecting many of the initialization functions defined in this file.
  *  @attention Direct task function
  *  @param bus_handle I2C bus handle.
  *  @return `ESP_OK` if successful.
  */
 esp_err_t PCA_init(i2c_master_bus_handle_t bus_handle) {
-    esp_err_t status = _PCA_i2c_init(bus_handle);
+    esp_err_t status = _PCA_add_driver_to_I2C0(bus_handle);
     if (status != ESP_OK) {
         return status;
     }
@@ -16,7 +21,7 @@ esp_err_t PCA_init(i2c_master_bus_handle_t bus_handle) {
         return status;
     }
 
-    status = _PCA_enable_drivers();
+    status = _PCA_enable_internal_drivers();
     if (status != ESP_OK) {
         return status;
     }
