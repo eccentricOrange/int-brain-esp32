@@ -1,5 +1,8 @@
 #include "int-brain.h"
 
+/**
+ *  @section State variables
+ */
 uint8_t _sbc_i2c1_receive_buffer[SBC_I2C1_RECEIVE_DATA_BUFFER_SIZE];
 uint8_t _sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
 uint8_t _sbc_i2c1_register;
@@ -23,3 +26,12 @@ bot_direction_t _bot_direction;
 uint8_t _common_speed;
 
 int _battery_voltage;
+
+/**
+ *  @section Local handles
+ */
+i2c_master_dev_handle_t _PCA_I2C0_device_handle;
+adc_oneshot_unit_handle_t _adc1_unit_handle;
+adc_cali_handle_t _adc1_cali_handle;
+adc_oneshot_unit_handle_t _adc2_unit_handle;
+adc_cali_handle_t _adc2_cali_handle;

@@ -1,5 +1,48 @@
 #include "int-brain.h"
 
+/** @brief Convert the `motor_direction_t` style direction and the PWM for a motor into PWM values for each terminal of the motor.
+ *  @attention Direct task function
+ *  @param direction Direction to move the motor.
+ *  @param PWM_in PWM value for the motor.
+ *  @param PWM_1_out Pointer to the PWM value for terminal 1.
+ *  @param PWM_2_out Pointer to the PWM value for terminal 2.
+ */
+void direction_to_PWMs(motor_direction_t direction, uint8_t PWM_in, uint8_t* PWM_1_out, uint8_t* PWM_2_out) {
+    switch (direction) {
+        // Idle
+        case IDLE:
+            *PWM_1_out = 0;
+            *PWM_2_out = 0;
+            break;
+
+        // Reverse
+        case REVERSE:
+            *PWM_1_out = 0;
+            *PWM_2_out = PWM_in;
+            break;
+
+        // Brake
+        case BRAKE:
+            *PWM_1_out = 0;
+            *PWM_2_out = 0;
+            break;
+
+        // Forward
+        case FORWARD:
+            *PWM_1_out = PWM_in;
+            *PWM_2_out = 0;
+            break;
+
+        // Error, brake and exit
+        default:
+            *PWM_1_out = 0;
+            *PWM_2_out = 0;
+            break;
+    }
+
+    return;
+}
+
 /** @brief Choose the PWM value based on the motor mode.
  *  @attention Direct task function
  *  @param command_PWM PWM value to filter.
@@ -66,7 +109,7 @@ esp_err_t set_motor_speeds(uint8_t* speeds) {
     return ESP_OK;
 }
 
-esp_err_t set_common_speed(uint8_t speed) {
+esp_err_t set_common_motor_speed(uint8_t speed) {
     _common_speed = speed;
     return ESP_OK;
 }

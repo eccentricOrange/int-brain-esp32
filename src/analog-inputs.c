@@ -6,7 +6,7 @@
  *  @param number_of_motors Number of motors.
  *  @return `ESP_OK` if successful.
  */
-esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors) {
+esp_err_t ADC1_motors_init(motor_t* motors, size_t number_of_motors) {
     esp_err_t status;
 
     status = _ADC1_register_configs();
