@@ -1,0 +1,217 @@
+#include "int-brain.h"
+
+/** @brief Choose the PWM value based on the motor mode.
+ *  @attention Direct task function
+ *  @param command_PWM PWM value to filter.
+ *  @return Filtered PWM value.
+ */
+uint8_t motor_PWM_mode_filter(uint8_t command_PWM, uint8_t common_speed, motor_speed_mode_t speed_mode) {
+    switch (speed_mode) {
+        case STOP:
+            return 0;
+
+        case MAX:
+            return PCA_MAX_PWM_DUTY;
+
+        case COMMAND:
+            return command_PWM;
+
+        case COMMON:
+            return common_speed;
+
+        default:
+            return command_PWM;
+    }
+}
+
+esp_err_t set_motor_mode_register(motor_safety_mode_t safety_mode, motor_speed_mode_t speed_mode, bool enable) {
+    _motor_mode_register = 0;
+
+    _motor_mode_register |= safety_mode << MOTOR_MODE_SAFETY_BIT_0_POSITION;
+    _motor_mode_register |= speed_mode << MOTOR_MODE_SPEED_BIT_0_POSITION;
+    _motor_mode_register |= enable << MOTOR_MODE_ENABLE_BIT_POSITION;
+
+    _motor_safety_mode = safety_mode;
+    _motor_speed_mode = speed_mode;
+    _motor_output_enabled = enable;
+
+    return _PCA_set_register(SET_MOTOR_MODE_ADDRESS, _motor_mode_register);
+}
+
+esp_err_t set_motor_safety_mode(motor_safety_mode_t safety_mode) {
+    _motor_safety_mode = safety_mode;
+    return set_motor_mode_register(_motor_safety_mode, _motor_speed_mode, _motor_output_enabled);
+}
+
+esp_err_t set_motor_speed_mode(motor_speed_mode_t speed_mode) {
+    _motor_speed_mode = speed_mode;
+    return set_motor_mode_register(_motor_safety_mode, _motor_speed_mode, _motor_output_enabled);
+}
+
+esp_err_t enable_motor_output() {
+    _motor_output_enabled = true;
+    return set_motor_mode_register(_motor_safety_mode, _motor_speed_mode, _motor_output_enabled);
+}
+
+esp_err_t disable_motor_output() {
+    _motor_output_enabled = false;
+    return set_motor_mode_register(_motor_safety_mode, _motor_speed_mode, _motor_output_enabled);
+}
+
+esp_err_t set_motor_speeds(uint8_t* speeds) {
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        _raw_motor_speeds[i] = speeds[i];
+    }
+
+    return ESP_OK;
+}
+
+esp_err_t set_common_speed(uint8_t speed) {
+    _common_speed = speed;
+    return ESP_OK;
+}
+
+esp_err_t set_motor_directions(motor_direction_t* directions) {
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        _motor_directions[i] = directions[i];
+    }
+
+    return ESP_OK;
+}
+
+esp_err_t set_bot_direction(bot_direction_t direction) {
+    _bot_direction = direction;
+
+    switch (_bot_direction) {
+        case FRONT:
+            _motor_directions[0] = FORWARD;
+            _motor_directions[1] = FORWARD;
+            _motor_directions[2] = FORWARD;
+            _motor_directions[3] = FORWARD;
+            break;
+
+        case BACK:
+            _motor_directions[0] = REVERSE;
+            _motor_directions[1] = REVERSE;
+            _motor_directions[2] = REVERSE;
+            _motor_directions[3] = REVERSE;
+            break;
+
+        case ROTATE_CLOCKWISE:
+            _motor_directions[0] = FORWARD;
+            _motor_directions[1] = REVERSE;
+            _motor_directions[2] = FORWARD;
+            _motor_directions[3] = REVERSE;
+            break;
+
+        case ROTATE_COUNTERCLOCKWISE:
+            _motor_directions[0] = REVERSE;
+            _motor_directions[1] = FORWARD;
+            _motor_directions[2] = REVERSE;
+            _motor_directions[3] = FORWARD;
+            break;
+
+        case FRONT_LEFT:
+            _motor_directions[0] = FORWARD;
+            _motor_directions[1] = BRAKE;
+            _motor_directions[2] = FORWARD;
+            _motor_directions[3] = BRAKE;
+            break;
+
+        case FRONT_RIGHT:
+            _motor_directions[0] = BRAKE;
+            _motor_directions[1] = FORWARD;
+            _motor_directions[2] = BRAKE;
+            _motor_directions[3] = FORWARD;
+            break;
+
+        case BACK_LEFT:
+            _motor_directions[0] = REVERSE;
+            _motor_directions[1] = BRAKE;
+            _motor_directions[2] = REVERSE;
+            _motor_directions[3] = BRAKE;
+            break;
+
+        case BACK_RIGHT:
+            _motor_directions[0] = BRAKE;
+            _motor_directions[1] = REVERSE;
+            _motor_directions[2] = BRAKE;
+            _motor_directions[3] = REVERSE;
+            break;
+
+        default:
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                _motor_directions[i] = BRAKE;
+            }
+            break;
+    }
+}
+
+esp_err_t publish_motor_command(motor_t* motors) {
+    esp_err_t status;
+
+    status = gpio_set_level(PCA_MOTOR_ENABLE_PIN, !_motor_output_enabled);
+    if (status != ESP_OK) {
+        return status;
+    }
+
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        _filtered_motor_speeds[i] = motor_PWM_mode_filter(_raw_motor_speeds[i], _common_speed, _motor_speed_mode);
+    }
+
+    switch (_motor_safety_mode) {
+        case UNSAFE:
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                status = PCA_command_motor_with_LED(motors[i], _motor_directions[i], _filtered_motor_speeds[i]);
+            }
+
+            break;
+
+        case PROTECT_DISCONNECT:
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                uint8_t disconnected_status = _motor_disconnect_status & (0b11 << (i * MOTOR_NUMBER_OF_BITS_PER_MOTOR));
+
+                if (disconnected_status == 0b00) {
+                    esp_err_t status = PCA_command_motor_with_LED(motors[i], _motor_directions[i], _filtered_motor_speeds[i]);
+                    if (status != ESP_OK) {
+                        return status;
+                    }
+                } else {
+                    esp_err_t status = PCA_command_motor_with_LED(motors[i], BRAKE, 0);
+                    if (status != ESP_OK) {
+                        return status;
+                    }
+                }
+            }
+
+            break;
+
+        default:
+            for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                esp_err_t status = PCA_command_motor_with_LED(motors[i], _motor_directions[i], _filtered_motor_speeds[i]);
+
+                if (status != ESP_OK) {
+                    return status;
+                }
+            }
+
+            break;
+    }
+
+    return ESP_OK;
+}
+
+esp_err_t update_motor_disconnect_status() {
+    uint8_t mask = 0b01;
+    _motor_disconnect_status = 0;
+
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        if (_filtered_motor_speeds[i] >= MOTOR_MINIMUM_DISCONNECT_PWM && _motor_currents[i] < MOTOR_MINIMUM_CONNECTED_CURRENT) {
+            _motor_disconnect_status |= mask;
+        }
+
+        mask <<= MOTOR_NUMBER_OF_BITS_PER_MOTOR;
+    }
+
+    return ESP_OK;
+}

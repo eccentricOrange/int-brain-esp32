@@ -1,9 +1,5 @@
 #include "int-brain.h"
 
-/** @file sbc-i2c-interaction.c
- *  @brief This file contains all the necessary functions to interact with the Single Board Computer (SBC) via I2C1.
- */
-
 /** @brief I2C Receive callback for the SBC.
  *  @attention Pseudo register-based function
  *  @param device_handle Handle of the I2C device.
@@ -122,7 +118,7 @@ esp_err_t sbc_i2c_parse_data() {
     } else {
         switch (_sbc_i2c1_register) {
             case SET_MOTOR_MODE_ADDRESS:
-                _motor_mode = _sbc_i2c1_receive_buffer[1];
+                _motor_mode_register = _sbc_i2c1_receive_buffer[1];
 
                 break;
 
@@ -130,7 +126,7 @@ esp_err_t sbc_i2c_parse_data() {
                 _motor_direction_register = _sbc_i2c1_receive_buffer[1];
 
                 for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
-                    _motor_speeds[i] = _sbc_i2c1_receive_buffer[i + 2];
+                    _raw_motor_speeds[i] = _sbc_i2c1_receive_buffer[i + 2];
                 }
 
                 break;
@@ -138,7 +134,7 @@ esp_err_t sbc_i2c_parse_data() {
             case SET_MOTOR_INDIVIDUAL_STANDARD_DATA_FIRST_ADDRESS ...(SET_MOTOR_INDIVIDUAL_STANDARD_DATA_FIRST_ADDRESS + NUMBER_OF_MOTORS - 1):
                 motor_index = _sbc_i2c1_register - SET_MOTOR_INDIVIDUAL_STANDARD_DATA_FIRST_ADDRESS;
                 _motor_directions[motor_index] = _sbc_i2c1_receive_buffer[1];
-                _motor_speeds[motor_index] = _sbc_i2c1_receive_buffer[2];
+                _raw_motor_speeds[motor_index] = _sbc_i2c1_receive_buffer[2];
                 break;
 
             case SET_MOTOR_DIRECTION_ADDRESS:
@@ -152,14 +148,14 @@ esp_err_t sbc_i2c_parse_data() {
 
             case SET_MOTOR_SPEED_ADDRESS:
                 for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
-                    _motor_speeds[i] = _sbc_i2c1_receive_buffer[i + 1];
+                    _raw_motor_speeds[i] = _sbc_i2c1_receive_buffer[i + 1];
                 }
 
                 break;
 
             case SET_MOTOR_INDIVIDUAL_SPEED_FIRST_ADDRESS ...(SET_MOTOR_INDIVIDUAL_SPEED_FIRST_ADDRESS + NUMBER_OF_MOTORS - 1):
                 motor_index = _sbc_i2c1_register - SET_MOTOR_INDIVIDUAL_SPEED_FIRST_ADDRESS;
-                _motor_speeds[motor_index] = _sbc_i2c1_receive_buffer[1];
+                _raw_motor_speeds[motor_index] = _sbc_i2c1_receive_buffer[1];
                 break;
 
             case SET_ROBOT_DIRECTION_ADDRESS:

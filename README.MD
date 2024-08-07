@@ -107,6 +107,23 @@ This value for this mode may simply be enabled or disabled.
 ## Motor direction
 The DRV8251A driver has the ability to actively brake the motor instead of letting it coast to a stop. This is done by setting the direction to brake. This gives us a total of four possible directions for each motor: idle, forward, backward, and brake.
 
+## Motor command functions
+
+| Function name | Speed control type | Direction control type | Safety mode | Speed mode | Enable mode |
+| --- | --- | --- | --- | --- | --- |
+| `set_motor_speeds()` | Array for individual speeds | [unused] | Not set-able | Not set-able | Not set-able |
+| `set_common_motor_speed()` | Single speed for all motors | [unused] | Not set-able | Not set-able | Not set-able |
+| `set_motor_directions()` | [unused] | Array for individual directions | Not set-able | Not set-able | Not set-able |
+| `set_bot_direction()` | [unused] | Variable for unified robot direction | Not set-able | Not set-able | Not set-able |
+| `set_motor_mode_register()` | [unused] | [unused] | Set-able by variable | Set-able by variable | Set-able by variable |
+| `set_motor_safety_mode()` | [unused] | [unused] | Set-able by variable | [unused] | [unused] |
+| `set_motor_speed_mode()` | [unused] | [unused] | [unused] | Set-able by variable | [unused] |
+| `enable_motor_output()` | [unused] | [unused] | [unused] | [unused] | Forced to `ENABLED` |
+| `disable_motor_output()` | [unused] | [unused] | [unused] | [unused] | Forced to `DISABLED` |
+
+After calling any of these, you must also call `publish_motor_command()` to actually send the commands to the motors through the PCA driver.
+
+
 # I2C Scheme
 
 ## Addresses

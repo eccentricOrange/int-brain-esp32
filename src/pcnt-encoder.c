@@ -1,16 +1,12 @@
 #include "int-brain.h"
 
-/** @file motor-encoder.c
- *  @brief This file contains the functions to read the encoder of the motors.
- */
-
 /** @brief Initialize the encoder for a motor.
  *  @attention Direct task function
  *  @param motor Motor to initialize the encoder for.
  *  @param pcnt_unit_handle Pointer to the PCNT unit handle.
  *  @return `ESP_OK` if successful.
  */
-esp_err_t _encoder_init(motor_t motor, pcnt_unit_handle_t* pcnt_unit_handle) {
+esp_err_t _encoder_individual_init(motor_t motor, pcnt_unit_handle_t* pcnt_unit_handle) {
     esp_err_t status;
 
     const pcnt_unit_config_t pcnt_unit_config = {
@@ -124,4 +120,17 @@ int encoder_read(motor_t motor) {
     int count;
     ESP_ERROR_CHECK(pcnt_unit_get_count(motor.encoder_unit_handle, &count));
     return count;
+}
+
+/** @brief Read the actual encoder values and update them in the relevant array.
+ *  @attention Pseudo register-based function
+ *  @param motors Array of `motor_t` structures, the pin-outs.
+ *  @return `ESP_OK` if successful.
+ */
+esp_err_t update_encoder_data(motor_t* motors) {
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        _encoder_positions[i] = encoder_read(motors[i]);
+    }
+
+    return ESP_OK;
 }
