@@ -101,7 +101,7 @@ esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors) {
 
     for (size_t i = 0; i < number_of_motors; i++) {
 
-        status = _encoder_init(motors[i], &motors[i].encoder_unit_handle);
+        status = _encoder_individual_init(motors[i], &motors[i].encoder_unit_handle);
         if (status != ESP_OK) {
             return status;
         }
