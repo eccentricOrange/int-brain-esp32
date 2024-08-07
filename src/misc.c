@@ -24,7 +24,7 @@ esp_err_t update_encoder_data(motor_t* motors) {
  */
 esp_err_t update_motor_current_data(motor_t* motors) {
     for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
-        _motor_currents[i] = ADC_read_motor_current(motors[i]);
+        _motor_currents[i] = _ADC_read_motor_current(motors[i]);
     }
 
     return ESP_OK;
@@ -126,4 +126,74 @@ uint8_t motor_PWM_mode_filter(uint8_t command_PWM, motor_speed_mode_t speed_mode
         default:
             return command_PWM;
     }
+}
+
+/** @brief Initialize the ADC for the battery voltage sense pin. Also calibrate the ADC.
+ *  @attention Direct task function
+ *  @attention **DO NOT USE IF YOU CANNOT USE ADC2** (such as when using Wi-Fi)
+ *  @return `ESP_OK` if successful.
+ */
+esp_err_t ADC_battery_init() {
+    const adc_oneshot_unit_init_cfg_t adc2_config = {
+        .unit_id = ADC_UNIT_2,
+    };
+    const adc_oneshot_chan_cfg_t adc_chan_config = {
+        .atten = ADC_CHOSEN_ATTEN,
+        .bitwidth = ADC_CHHOSEN_BITWIDTH,
+    };
+    const adc_cali_line_fitting_config_t adc2_cali_config = {
+        .unit_id = ADC_UNIT_2,
+        .atten = ADC_CHOSEN_ATTEN,
+        .bitwidth = ADC_CHHOSEN_BITWIDTH,
+    };
+
+    esp_err_t status;
+    adc_channel_t adc_channel;
+
+    status = adc_oneshot_new_unit(&adc2_config, &_adc2_unit_handle);
+    if (status != ESP_OK) {
+        return status;
+    }
+
+    status = adc_cali_create_scheme_line_fitting(&adc2_cali_config, &_adc2_cali_handle);
+    if (status != ESP_OK) {
+        return status;
+    }
+
+    status = adc_oneshot_io_to_channel(BATTERY_VOLTAGE_SENSE_PIN, _adc2_unit_handle, &adc_channel);
+    if (status != ESP_OK) {
+        return status;
+    }
+
+
+    status = adc_oneshot_config_channel(_adc2_unit_handle, adc_channel, &adc_chan_config);
+    if (status != ESP_OK) {
+        return status;
+    }
+
+    return ESP_OK;
+}
+
+
+/** @brief Read the battery voltage sense pin and return the value.
+ *  @attention Direct task function
+ *  @return The voltage reading.
+ */
+int ADC_read_battery_voltage() {
+    int voltageReading;
+    adc_channel_t channel;
+
+    ESP_ERROR_CHECK(adc_oneshot_io_to_channel(BATTERY_VOLTAGE_SENSE_PIN, _adc2_unit_handle, &channel));
+    ESP_ERROR_CHECK(adc_oneshot_get_calibrated_result(_adc2_unit_handle, _adc2_cali_handle, channel, &voltageReading));
+
+    return voltageReading;
+}
+
+/** @brief Update the battery voltage.
+ *  @attention Direct task function
+ *  @return `ESP_OK` if successful.
+ */
+esp_err_t update_battery_voltage() {
+    _battery_voltage = ADC_read_battery_voltage();
+    return ESP_OK;
 }

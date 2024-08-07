@@ -281,8 +281,10 @@ extern int _battery_voltage;
  *  @section Local handles
  */
 extern i2c_master_dev_handle_t _PCA_I2C0_device_handle;
-extern adc_oneshot_unit_handle_t _adc_motors_handle;
-extern adc_cali_handle_t _adc_motors_cali_handle;
+extern adc_oneshot_unit_handle_t _adc1_unit_handle;
+extern adc_cali_handle_t _adc1_cali_handle;
+extern adc_oneshot_unit_handle_t _adc2_unit_handle;
+extern adc_cali_handle_t _adc2_cali_handle;
 
 /**
  *  @section PCA Function prototypes (motor command)
@@ -308,9 +310,12 @@ extern esp_err_t PCA_command_motor(motor_t motor, motor_direction_t direction, u
 /**
  *  @section ADC Function prototypes (motor current sense)
  */
-extern esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors);       // direct task function
-extern esp_err_t _ADC_channels_config(motor_t* motors, size_t number_of_motors);  // direct task function
-extern int ADC_read_motor_current(motor_t motor);                                 // direct task function
+extern esp_err_t _ADC1_init();       // direct task function
+extern esp_err_t _ADC_motors_channels_config(motor_t* motors, size_t number_of_motors);  // direct task function
+extern esp_err_t ADC_battery_init();  // direct task function
+extern esp_err_t ADC_motors_init(motor_t* motors, size_t number_of_motors);                // direct task function
+extern int _ADC_read_motor_current(motor_t motor);     
+extern int ADC_read_battery_voltage();  // direct task function
 
 /**
  *  @section PCNT Function prototypes (motor encoder)
@@ -348,3 +353,4 @@ extern esp_err_t update_encoder_data(motor_t* motors);        // pseudo register
 extern esp_err_t update_motor_current_data(motor_t* motors);  // pseudo register-based function
 extern esp_err_t update_motor_disconnect_status();            // pseudo register-based function
 extern esp_err_t update_motor_directions_from_register();     // pseudo register-based function
+extern esp_err_t update_battery_voltage();                    // pseudo register-based function

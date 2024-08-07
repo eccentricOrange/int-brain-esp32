@@ -6,7 +6,6 @@
 const uint8_t PCA_DRIVER_ADDRESS = PCA_DRIVER_I2C0_DEFAULT_ADDRESS;
 
 #define STANDARD_DELAY 10
-#define LOOP_DELAY 5
 #define TASK_PRIORITY 1
 
 i2c_master_bus_handle_t i2c0_master_bus_handle;
@@ -50,9 +49,9 @@ void command_bot_task() {
     bool LED_state = false;
 
     while (1) {
-        for (size_t duty = 0; duty < PCA_MAX_PWM_DUTY; duty++) {
-            for (size_t motor = 0; motor < NUMBER_OF_MOTORS; motor++) {
-                _motor_speeds[motor] = duty;
+        for (size_t i = 0; i < PCA_MAX_PWM_DUTY; i++) {
+            for (size_t j = 0; j < NUMBER_OF_MOTORS; j++) {
+                _motor_speeds[j] = i;
             }
 
             ESP_ERROR_CHECK(command_all_motors_safe(
@@ -62,15 +61,15 @@ void command_bot_task() {
                 _motor_speeds,
                 _motor_directions));
 
-            vTaskDelay(pdMS_TO_TICKS(LOOP_DELAY));
+            vTaskDelay(pdMS_TO_TICKS(5));
         }
 
         LED_state = !LED_state;
         ESP_ERROR_CHECK(gpio_set_level(DEFAULT_LED_PIN, LED_state));
 
-        for (size_t duty = PCA_MAX_PWM_DUTY; duty > 0; duty--) {
-            for (size_t motor = 0; motor < NUMBER_OF_MOTORS; motor++) {
-                _motor_speeds[motor] = duty;
+        for (size_t i = PCA_MAX_PWM_DUTY; i > 0; i--) {
+            for (size_t j = 0; j < NUMBER_OF_MOTORS; j++) {
+                _motor_speeds[j] = i;
             }
 
             ESP_ERROR_CHECK(command_all_motors_safe(
@@ -80,7 +79,7 @@ void command_bot_task() {
                 _motor_speeds,
                 _motor_directions));
 
-            vTaskDelay(pdMS_TO_TICKS(LOOP_DELAY));
+            vTaskDelay(pdMS_TO_TICKS(5));
         }
 
         LED_state = !LED_state;

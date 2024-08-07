@@ -36,6 +36,8 @@ void int_brain_init(void) {
 
     ESP_ERROR_CHECK(ADC_motors_init(DEFAULT_MOTORS_PIN_OUTS, NUMBER_OF_MOTORS));
 
+    ESP_ERROR_CHECK(ADC_battery_init());
+
     ESP_ERROR_CHECK(encoder_all_init(DEFAULT_MOTORS_PIN_OUTS, NUMBER_OF_MOTORS));
 
     ESP_ERROR_CHECK(sbc_i2c1_register_callback(i2c1_slave_device_handle));
@@ -66,6 +68,7 @@ void update_sensor_registers_task() {
         ESP_ERROR_CHECK(update_encoder_data(DEFAULT_MOTORS_PIN_OUTS));
         ESP_ERROR_CHECK(update_motor_current_data(DEFAULT_MOTORS_PIN_OUTS));
         ESP_ERROR_CHECK(update_motor_disconnect_status());
+        ESP_ERROR_CHECK(update_battery_voltage());
 
         vTaskDelay(pdMS_TO_TICKS(STANDARD_DELAY));
     }

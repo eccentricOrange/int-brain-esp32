@@ -31,5 +31,7 @@ int _battery_voltage = 0;
  *  @section Local handles
  */
 i2c_master_dev_handle_t _PCA_I2C0_device_handle;
-adc_oneshot_unit_handle_t _adc_motors_handle;
-adc_cali_handle_t _adc_motors_cali_handle;
+adc_oneshot_unit_handle_t _adc1_unit_handle;
+adc_cali_handle_t _adc1_cali_handle;
+adc_oneshot_unit_handle_t _adc2_unit_handle;
+adc_cali_handle_t _adc2_cali_handle;
