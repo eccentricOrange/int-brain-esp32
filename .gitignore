@@ -2,5 +2,4 @@
 .venv
 .github
 .devcontainer
-__pycache__
 docs
