@@ -120,6 +120,10 @@ esp_err_t sbc_i2c_parse_data() {
             case SET_MOTOR_MODE_ADDRESS:
                 _motor_mode_register = _sbc_i2c1_receive_buffer[1];
 
+                _motor_safety_mode = _motor_mode_register & 0b11;
+                _motor_speed_mode = (_motor_mode_register >> 2) & 0b11;
+                _motor_output_enabled = (_motor_mode_register >> 4) & 0b11;
+
                 break;
 
             case SET_MOTOR_STANDARD_DATA_ADDRESS:
@@ -127,6 +131,7 @@ esp_err_t sbc_i2c_parse_data() {
 
                 for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
                     _raw_motor_speeds[i] = _sbc_i2c1_receive_buffer[i + 2];
+                    _motor_directions[i] = (_motor_direction_register >> (i * 2)) & 0b11;
                 }
 
                 break;
@@ -139,6 +144,10 @@ esp_err_t sbc_i2c_parse_data() {
 
             case SET_MOTOR_DIRECTION_ADDRESS:
                 _motor_direction_register = _sbc_i2c1_receive_buffer[1];
+
+                for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+                    _motor_directions[i] = (_motor_direction_register >> (i * 2)) & 0b11;
+                }
                 break;
 
             case SET_MOTOR_INDIVIDUAL_DIRECTION_FIRST_ADDRESS ...(SET_MOTOR_INDIVIDUAL_DIRECTION_FIRST_ADDRESS + NUMBER_OF_MOTORS - 1):

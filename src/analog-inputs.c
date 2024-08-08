@@ -14,14 +14,10 @@ esp_err_t ADC1_motors_init(motor_t* motors, size_t number_of_motors) {
         return status;
     }
 
-    printf("ADC1 initialized\n");
-
     status = _ADC1_config_oneshot_channels(motors, number_of_motors);
     if (status != ESP_OK) {
         return status;
     }
-
-    printf("ADC1 channels configured\n");
 
     return ESP_OK;
 }

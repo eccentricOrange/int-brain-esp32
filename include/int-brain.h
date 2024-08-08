@@ -11,7 +11,6 @@
 #include "esp_log.h"
 #include "esp_task.h"
 #include "freertos/queue.h"
-
 #include "int-brain-sbc-registers.h"
 
 /** @file int-brain.h
@@ -336,7 +335,7 @@ extern esp_err_t set_common_motor_speed(uint8_t speed);                // pseudo
 extern esp_err_t set_motor_directions(motor_direction_t* directions);  // pseudo register-based function
 extern esp_err_t set_bot_direction(bot_direction_t direction);         // pseudo register-based function
 
-extern esp_err_t publish_motor_command();           // pseudo register-based function
+extern esp_err_t publish_motor_command(motor_t* motors);           // pseudo register-based function
 extern esp_err_t update_motor_disconnect_status();  // pseudo register-based function
 
 /**

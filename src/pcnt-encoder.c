@@ -127,7 +127,7 @@ int encoder_read(motor_t motor) {
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @return `ESP_OK` if successful.
  */
-esp_err_t update_encoder_data(motor_t* motors) {
+esp_err_t update_encoder_data_register(motor_t* motors) {
     for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
         _encoder_positions[i] = encoder_read(motors[i]);
     }

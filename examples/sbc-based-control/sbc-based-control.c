@@ -4,6 +4,8 @@
 #include "int-brain.h"
 
 const uint8_t PCA_DRIVER_ADDRESS = PCA_DRIVER_I2C0_DEFAULT_ADDRESS;
+const int ENCODER_GLITCH_PERIOD = DEFAULT_ENCODER_GLITCH_PERIOD;
+const int ENCODER_LIMIT = DEFAULT_ENCODER_LIMIT;
 
 bool command_received = false;
 
@@ -14,10 +16,10 @@ i2c_master_bus_handle_t i2c0_master_bus_handle;
 i2c_slave_dev_handle_t i2c1_slave_device_handle;
 
 void reset_motors(void) {
-    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
-        ESP_ERROR_CHECK(PCA_command_motor_with_LED(DEFAULT_MOTORS_PIN_OUTS[i], BRAKE, 0));
-    }
-    PCA_disable();
+    set_motor_mode_register(UNSAFE, COMMON, false);
+    set_bot_direction(FORWARD);
+    set_common_motor_speed(0);
+    ESP_ERROR_CHECK(publish_motor_command(DEFAULT_MOTORS_PIN_OUTS));
 }
 
 void int_brain_init(void) {
@@ -34,9 +36,9 @@ void int_brain_init(void) {
 
     ESP_ERROR_CHECK(PCA_init(i2c0_master_bus_handle));
 
-    ESP_ERROR_CHECK(ADC_motors_init(DEFAULT_MOTORS_PIN_OUTS, NUMBER_OF_MOTORS));
+    ESP_ERROR_CHECK(ADC1_motors_init(DEFAULT_MOTORS_PIN_OUTS, NUMBER_OF_MOTORS));
 
-    ESP_ERROR_CHECK(ADC_battery_init());
+    ESP_ERROR_CHECK(ADC2_battery_init());
 
     ESP_ERROR_CHECK(encoder_all_init(DEFAULT_MOTORS_PIN_OUTS, NUMBER_OF_MOTORS));
 
@@ -65,10 +67,10 @@ void i2c1_communicate_with_sbc_task() {
 
 void update_sensor_registers_task() {
     while (1) {
-        ESP_ERROR_CHECK(update_encoder_data(DEFAULT_MOTORS_PIN_OUTS));
-        ESP_ERROR_CHECK(update_motor_current_data(DEFAULT_MOTORS_PIN_OUTS));
+        ESP_ERROR_CHECK(update_encoder_data_register(DEFAULT_MOTORS_PIN_OUTS));
+        ESP_ERROR_CHECK(update_motor_current_data_register(DEFAULT_MOTORS_PIN_OUTS));
         ESP_ERROR_CHECK(update_motor_disconnect_status());
-        ESP_ERROR_CHECK(update_battery_voltage());
+        ESP_ERROR_CHECK(update_battery_voltage_register());
 
         vTaskDelay(pdMS_TO_TICKS(STANDARD_DELAY));
     }
@@ -77,9 +79,7 @@ void update_sensor_registers_task() {
 void command_bot_task() {
     while (1) {
         if (command_received) {
-            ESP_ERROR_CHECK(PCA_set_moe_by_register());
-            ESP_ERROR_CHECK(update_motor_directions_from_register());
-            ESP_ERROR_CHECK(command_bot_registers_safe(DEFAULT_MOTORS_PIN_OUTS));
+            ESP_ERROR_CHECK(publish_motor_command(DEFAULT_MOTORS_PIN_OUTS));
             command_received = false;
         }
 

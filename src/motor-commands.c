@@ -78,7 +78,7 @@ esp_err_t set_motor_mode_register(motor_safety_mode_t safety_mode, motor_speed_m
     _motor_speed_mode = speed_mode;
     _motor_output_enabled = enable;
 
-    return _PCA_set_register(SET_MOTOR_MODE_ADDRESS, _motor_mode_register);
+    return ESP_OK;
 }
 
 esp_err_t set_motor_safety_mode(motor_safety_mode_t safety_mode) {
@@ -203,6 +203,7 @@ esp_err_t publish_motor_command(motor_t* motors) {
     for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
         _filtered_motor_speeds[i] = motor_PWM_mode_filter(_raw_motor_speeds[i], _common_speed, _motor_speed_mode);
     }
+
 
     switch (_motor_safety_mode) {
         case UNSAFE:
