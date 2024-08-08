@@ -4,39 +4,54 @@ import smbus2
 import int_brain_sbc.core
 import int_brain_sbc.enums
 
-DELAY = 0
+DELAY = 0.01
+STEP = 5
 
-with smbus2.SMBus(1) as bus:
+def write_common_speed_and_print_current(bot: int_brain_sbc.core.IntBrain, i: int):
+    bot.set_common_speed(i)
+    time.sleep(DELAY)
+    print(f"{i:03}: {bot.request_data(request_type=int_brain_sbc.enums.BotQueries.ALL_MOTOR_CURRENT)}")
+    time.sleep(DELAY)
 
-    bot = int_brain_sbc.core.IntBrain(bus)
-
+def initialize_motor_system(bot: int_brain_sbc.core.IntBrain):
     bot.set_motor_mode(
-        enable=True,
-        speed=int_brain_sbc.enums.MotorSpeedMode.COMMAND_SPEED,
-        safety=int_brain_sbc.enums.MotorSafetyMode.PROTECT_DISCONNECT
-    )
+            enable=True,
+            speed=int_brain_sbc.enums.MotorSpeedMode.COMMON_SPEED,
+            safety=int_brain_sbc.enums.MotorSafetyMode.PROTECT_DISCONNECT
+        )
 
-    time.sleep(0.1)
-
-    bot.set_motor_speeds([0, 0, 0, 0])
-
-    time.sleep(0.1)
-
+    bot.set_common_speed(0)
     bot.set_motor_directions([int_brain_sbc.enums.MotorDirection.FORWARD] * 4)
 
-    time.sleep(0.1)
+def main():
+    
+    with smbus2.SMBus(1) as bus:
 
-    print(bot.request_data(request_type=int_brain_sbc.enums.BotQueries.ALL_MOTOR_CURRENT))
+        bot = int_brain_sbc.core.IntBrain(bus)
+        initialize_motor_system(bot)
 
-    while 1:
-        for i in range(0, 255, 5):
-            bot.set_motor_speeds([i, i, i, i])
-            time.sleep(DELAY)
-            print(f"{i:03}: {bot.request_data(request_type=int_brain_sbc.enums.BotQueries.ALL_MOTOR_CURRENT)}")
-            time.sleep(DELAY)
+        while 1:
+            for i in range(0, 256, STEP):
+                try:
+                    write_common_speed_and_print_current(bot, i)
+                except OSError:
+                    bot = re_open_bot(bot, bus)
 
-        for i in range(255, -1, -5):
-            bot.set_motor_speeds([i, i, i, i])
-            time.sleep(DELAY)
-            print(f"{i:03}: {bot.request_data(request_type=int_brain_sbc.enums.BotQueries.ALL_MOTOR_CURRENT)}")
-            time.sleep(DELAY)
+            for i in range(255, -1, -STEP):
+                try:
+                    write_common_speed_and_print_current(bot, i)
+                except OSError:
+                    bot = re_open_bot(bot, bus)
+
+def re_open_bot(bot: int_brain_sbc.core.IntBrain, bus: smbus2.SMBus):
+    while True:
+        try:
+            bot = int_brain_sbc.core.IntBrain(bus)
+            initialize_motor_system(bot)
+            return bot
+        except OSError:
+            time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
