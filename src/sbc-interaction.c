@@ -1,5 +1,10 @@
 #include "int-brain.h"
 
+/** @file sbc-interaction.c
+ *  @brief Implement the functions to interact with the SBC, the I2C1-based communication interface used to control the robot.
+ *  @author @eccentricOrange
+ */
+
 /** @brief I2C Receive callback for the SBC.
  *  @attention Pseudo register-based function
  *  @param device_handle Handle of the I2C device.
@@ -56,7 +61,9 @@ inline void _write_int_to_i2c_buffer(uint8_t* buffer, int value, size_t index) {
     }
 }
 
-/** @brief Parse the data received from the SBC I2C1. Will check the first element for the "register". If data ws received from the SBC, it will be written to the relevant variable; if data was requested, it will be written to the send buffer `_sbc_i2c1_send_buffer`.
+/** @brief Parse the data received from the SBC I2C1. 
+ * @details Will check the first element for the "register". If data ws received from the SBC, it will be written to the relevant variable; if data was requested, it will be written to the send buffer `_sbc_i2c1_send_buffer`.
+ * @details Keep in mind that once we publish data from `sbc_i2c1_send_buffer`, it sits in a FIFO buffer until the SBC is ready to come and pick it up.
  *  @attention Pseudo register-based function
  *  @return `ESP_OK` if successful.
  */
@@ -169,6 +176,7 @@ esp_err_t sbc_i2c_parse_data() {
 
             case SET_ROBOT_DIRECTION_ADDRESS:
                 _bot_direction = _sbc_i2c1_receive_buffer[1];
+                set_bot_direction(_bot_direction);
                 break;
 
             case SET_ROBOT_COMMON_SPEED_ADDRESS:

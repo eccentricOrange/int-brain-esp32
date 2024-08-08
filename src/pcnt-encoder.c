@@ -1,6 +1,11 @@
 #include "int-brain.h"
 
-/** @brief Initialize the encoder for a motor.
+/** @file pcnt-encoder.c
+ *  @brief Initialize the encoder for the motors and read the encoder values.
+ *  @author @eccentricOrange
+ */
+
+/** @brief Initialize the encoder for a single motor.
  *  @attention Direct task function
  *  @param motor Motor to initialize the encoder for.
  *  @param pcnt_unit_handle Pointer to the PCNT unit handle.
@@ -122,7 +127,7 @@ int encoder_read(motor_t motor) {
     return count;
 }
 
-/** @brief Read the actual encoder values and update them in the relevant array.
+/** @brief Read the actual encoder values and update them in the relevant array `_encoder_positions`.
  *  @attention Pseudo register-based function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @return `ESP_OK` if successful.

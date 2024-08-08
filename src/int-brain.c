@@ -1,5 +1,10 @@
 #include "int-brain.h"
 
+/** @file int-brain.c
+ *  @brief Initialize the state variables and local handles.
+ *  @author @eccentricOrange
+ */
+
 /**
  *  @section State variables
  */

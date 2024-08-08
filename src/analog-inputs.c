@@ -1,6 +1,11 @@
 #include "int-brain.h"
 
-/** @brief Initialize the ADC for the motor current sense pins. Calls `_ADC1_init` and `_ADC_motors_channels_config`.
+/** @file analog-inputs.c
+ *  @brief Implement the functions to read the motor current sense pins and battery voltage sense pin.
+ *  @author @eccentricOrange
+ */
+
+/** @brief Initialize the ADC for the motor current sense pins. Calls `_ADC1_register_configs` and `_ADC1_config_oneshot_channels`.
  *  @attention Direct task function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @param number_of_motors Number of motors.
@@ -22,7 +27,7 @@ esp_err_t ADC1_motors_init(motor_t* motors, size_t number_of_motors) {
     return ESP_OK;
 }
 
-/** @brief Initialize ADC for the motor current sense pins and battery voltage sense pin.
+/** @brief Initialize ADC1 by setting up a new unit and its calibration scheme.
  *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */
@@ -52,7 +57,7 @@ esp_err_t _ADC1_register_configs() {
     return ESP_OK;
 }
 
-/** @brief Configure the ADC channels for the motor current sense pins.
+/** @brief Configure the ADC1 channels for the motor current sense pins, using GPIO pin-outs from the pin-outs array.
  *  @attention Direct task function
  *  @param motors Array of `motor_t` structures, the pin-outs.
  *  @param number_of_motors Number of motors.
@@ -113,7 +118,7 @@ esp_err_t update_motor_current_data_register(motor_t* motors) {
     return ESP_OK;
 }
 
-/** @brief Initialize the ADC for the battery voltage sense pin. Also calibrate the ADC.
+/** @brief Initialize ADC2 for the battery voltage sense pin by setting up a new unit, its calibration scheme, and configuring the GPIO channel.
  *  @attention Direct task function
  *  @attention **DO NOT USE IF YOU CANNOT USE ADC2** (such as when using Wi-Fi)
  *  @return `ESP_OK` if successful.
@@ -161,6 +166,7 @@ esp_err_t ADC2_battery_init() {
 
 /** @brief Read the battery voltage sense pin and return the value.
  *  @attention Direct task function
+ *  @attention **DO NOT USE IF YOU CANNOT USE ADC2** (such as when using Wi-Fi)
  *  @return The voltage reading.
  */
 int ADC2_read_battery_voltage() {
@@ -173,7 +179,7 @@ int ADC2_read_battery_voltage() {
     return voltageReading;
 }
 
-/** @brief Update the battery voltage.
+/** @brief Update the battery voltage register with the current battery voltage reading.
  *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */

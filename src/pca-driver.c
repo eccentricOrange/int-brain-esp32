@@ -1,5 +1,11 @@
 #include "int-brain.h"
 
+/** @file pca-driver.c
+ *  @brief Implement the functions to interact with the PCA9635 driver, the I2C0-based PWM demux used to control the motor drivers and their corresponding LEDs.
+ *  @brief https://www.nxp.com/docs/en/data-sheet/PCA9635.pdf
+ *  @author @eccentricOrange
+ */
+
 /// @brief Fix the points below by reversing the PWM for the LED. Also remap the LED's PWM to leverage logarithmic perception
 /// * for a high PWM: the motor is fast but the LED is dim
 /// * for a low PWM: the motor is slow but the LED is bright
@@ -59,7 +65,7 @@ esp_err_t _PCA_set_register(uint8_t register_address, uint8_t data) {
     return i2c_master_transmit(_PCA_I2C0_device_handle, &data_array, 2, PCA_I2C0_WRITE_TIMEOUT);
 }
 
-/** @brief Enable the LED drivers on the PCA9635 driver byt setting their registers.
+/** @brief Enable the LED drivers on the PCA9635 driver by setting their registers.
  *  @attention Direct task function
  *  @return `ESP_OK` if successful.
  */
