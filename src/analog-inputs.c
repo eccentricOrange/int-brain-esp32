@@ -118,6 +118,19 @@ esp_err_t update_motor_current_data_register(motor_t* motors) {
     return ESP_OK;
 }
 
+/** @brief Get the current reading of a motor.
+ *  @attention Pseudo register-based function
+ *  @param motor_number Motor number.
+ *  @return The current reading.
+ */
+int get_current_reading(uint8_t motor_number) {
+    if (motor_number < NUMBER_OF_MOTORS) {
+        return _motor_currents[motor_number];
+    } else {
+        return -1;
+    }
+}
+
 /** @brief Initialize ADC2 for the battery voltage sense pin by setting up a new unit, its calibration scheme, and configuring the GPIO channel.
  *  @attention Direct task function
  *  @attention **DO NOT USE IF YOU CANNOT USE ADC2** (such as when using Wi-Fi)
@@ -154,7 +167,6 @@ esp_err_t ADC2_battery_init() {
     if (status != ESP_OK) {
         return status;
     }
-
 
     status = adc_oneshot_config_channel(_adc2_unit_handle, adc_channel, &adc_chan_config);
     if (status != ESP_OK) {

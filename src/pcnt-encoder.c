@@ -105,14 +105,12 @@ esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors) {
     esp_err_t status;
 
     for (size_t i = 0; i < number_of_motors; i++) {
-
         status = _encoder_individual_init(motors[i], &motors[i].encoder_unit_handle);
         if (status != ESP_OK) {
             return status;
         }
-        
     }
-    
+
     return ESP_OK;
 }
 
@@ -138,4 +136,17 @@ esp_err_t update_encoder_data_register(motor_t* motors) {
     }
 
     return ESP_OK;
+}
+
+/** @brief Get the encoder reading of a motor.
+ *  @attention Pseudo register-based function
+ *  @param motor_number Motor number.
+ *  @return The encoder reading.
+ */
+int get_encoder_reading(uint8_t motor_number) {
+    if (motor_number < NUMBER_OF_MOTORS) {
+        return _encoder_positions[motor_number];
+    } else {
+        return -1;
+    }
 }

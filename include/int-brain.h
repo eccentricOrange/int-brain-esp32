@@ -335,8 +335,8 @@ extern esp_err_t set_common_motor_speed(uint8_t speed);                // pseudo
 extern esp_err_t set_motor_directions(motor_direction_t* directions);  // pseudo register-based function
 extern esp_err_t set_bot_direction(bot_direction_t direction);         // pseudo register-based function
 
-extern esp_err_t publish_motor_command(motor_t* motors);           // pseudo register-based function
-extern esp_err_t update_motor_disconnect_status();  // pseudo register-based function
+extern esp_err_t publish_motor_command(motor_t* motors);  // pseudo register-based function
+extern esp_err_t update_motor_disconnect_status();        // pseudo register-based function
 
 /**
  *  @section ADC Function prototypes
@@ -346,6 +346,7 @@ extern esp_err_t _ADC1_register_configs();                                      
 extern esp_err_t _ADC1_config_oneshot_channels(motor_t* motors, size_t number_of_motors);  // direct task function
 extern int _ADC1_read_motor_current(motor_t motor);                                        // direct task function
 extern esp_err_t update_motor_current_data_register(motor_t* motors);                      // pseudo register-based function
+extern int get_current_reading(uint8_t motor_number);                                      // pseudo register-based function
 
 extern esp_err_t ADC2_battery_init();                // direct task function
 extern int ADC2_read_battery_voltage();              // direct task function
@@ -358,6 +359,7 @@ extern esp_err_t _encoder_individual_init(motor_t motor, pcnt_unit_handle_t* pcn
 extern esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors);                     // direct task function
 extern int encoder_read(motor_t motor);                                                          // direct task function
 extern esp_err_t update_encoder_data_register(motor_t* motors);                                  // pseudo register-based function
+extern int get_encoder_reading(uint8_t motor_number);                                            // pseudo register-based function
 
 /**
  *  @section SBC I2C Function prototypes
