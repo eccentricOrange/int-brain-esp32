@@ -144,6 +144,8 @@ Note that in many of the registers below, the address is given as a range. In su
 | --- | --- | --- | --- |
 | Encoder positions | 0x10 | 4 bytes per motor (int) | 16 bytes |
 | Encoder position per motor | 0x11 - 0x14 | 4 bytes (int) | 4 bytes |
+| Motor speeds | 0x15 | 4 bytes per motor (int) | 16 bytes |
+| Motor speed per motor | 0x16 - 0x19 | 4 bytes (int) | 4 bytes |
 | Motor current | 0x20 | 4 bytes per motor (int) | 16 bytes |
 | Motor current per motor | 0x21 - 0x24 | 4 bytes (int) | 16 bytes |
 | Motor stall status | 0x30 | 1 byte total (bool) | 1 byte |

@@ -13,7 +13,10 @@ uint8_t _sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
 uint8_t _sbc_i2c1_register;
 
 int _encoder_positions[NUMBER_OF_MOTORS];
+int _encoder_positions_previous[NUMBER_OF_MOTORS];
+int _motor_rpms[NUMBER_OF_MOTORS];
 int _motor_currents[NUMBER_OF_MOTORS];
+uint64_t _previous_timer_value;
 uint8_t _motor_stall_status;
 uint8_t _motor_disconnect_status;
 

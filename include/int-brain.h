@@ -10,6 +10,7 @@
 #include "esp_err.h"
 #include "esp_log.h"
 #include "esp_task.h"
+#include "esp_timer.h"
 #include "freertos/queue.h"
 #include "int-brain-sbc-registers.h"
 
@@ -31,11 +32,29 @@
 /// PCA driver's I2C slave address
 extern const uint8_t PCA_DRIVER_ADDRESS;
 
-/// Maximum number of pulses in the encoder per revolution (PPR)
+/// Maximum number of pulses in the encoder per revolution of the underlying motor
+extern const int ENCODER_CPR;  // pulses
+
+/// Maximum number of pulses in the encoder per revolution of the underlying motor
+#define DEFAULT_ENCODER_CPR 1024  // pulses
+
+/// Gear ratio of the motor
+extern const int MOTOR_GEAR_RATIO;
+
+/// Gear ratio of the motor
+#define DEFAULT_MOTOR_GEAR_RATIO 1
+
+/// Maximum RPM of the motor at maximum PWM (output shaft)
+extern const int MAX_MOTOR_RPM;
+
+/// Maximum RPM of the motor at maximum PWM (output shaft)
+#define DEFAULT_MAX_MOTOR_RPM 100
+
+/// Maximum number of pulses in the encoder per revolution of the output shaft
 extern const int ENCODER_LIMIT;  // pulses
 
 /// Maximum number of pulses in the encoder per revolution (PPR)
-#define DEFAULT_ENCODER_LIMIT 1024  // pulses
+#define DEFAULT_ENCODER_LIMIT ENCODER_CPR* MOTOR_GEAR_RATIO  // pulses
 
 /// Debounce period for encoder
 extern const int ENCODER_GLITCH_PERIOD;  // ns
@@ -45,6 +64,7 @@ extern const int ENCODER_GLITCH_PERIOD;  // ns
 
 /// ADC attenuation, we choose not to use attenuation
 #define ADC_CHOSEN_ATTEN ADC_ATTEN_DB_0
+
 /// ADC bitwidth, we choose the default bitwidth
 #define ADC_CHHOSEN_BITWIDTH ADC_BITWIDTH_DEFAULT
 
@@ -276,7 +296,10 @@ extern uint8_t _sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
 extern uint8_t _sbc_i2c1_register;
 
 extern int _encoder_positions[NUMBER_OF_MOTORS];
+extern int _encoder_positions_previous[NUMBER_OF_MOTORS];
+extern int _motor_rpms[NUMBER_OF_MOTORS];
 extern int _motor_currents[NUMBER_OF_MOTORS];
+extern uint64_t _previous_timer_value;
 extern uint8_t _motor_stall_status;
 extern uint8_t _motor_disconnect_status;
 
@@ -360,6 +383,8 @@ extern esp_err_t encoder_all_init(motor_t* motors, size_t number_of_motors);    
 extern int encoder_read(motor_t motor);                                                          // direct task function
 extern esp_err_t update_encoder_data_register(motor_t* motors);                                  // pseudo register-based function
 extern int get_encoder_reading(uint8_t motor_number);                                            // pseudo register-based function
+extern esp_err_t calculate_rpm_task();                                                           // pseudo register-based function
+extern int get_rpm_reading(uint8_t motor_number);                                                // pseudo register-based function
 
 /**
  *  @section SBC I2C Function prototypes

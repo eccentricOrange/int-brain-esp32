@@ -150,3 +150,40 @@ int get_encoder_reading(uint8_t motor_number) {
         return -1;
     }
 }
+
+/** @brief Calculate the RPM of the motors.
+ *  @attention Register-based function
+ *  @return `ESP_OK` if successful.
+ */
+esp_err_t calculate_rpm_task() {
+    uint64_t current_timer_value = esp_timer_get_time();
+    uint64_t time_difference = current_timer_value - _previous_timer_value;
+    int calculated_value = 0;
+
+    for (size_t i = 0; i < NUMBER_OF_MOTORS; i++) {
+        calculated_value = (_encoder_positions[i] - _encoder_positions_previous[i]) * 60 * 1e6 / (time_difference * ENCODER_LIMIT);
+
+        if (calculated_value >= -MAX_MOTOR_RPM && calculated_value <= MAX_MOTOR_RPM) {
+            _motor_rpms[i] = calculated_value;
+        }
+
+        _encoder_positions_previous[i] = _encoder_positions[i];
+    }
+
+    _previous_timer_value = current_timer_value;
+
+    return ESP_OK;
+}
+
+/** @brief Get the RPM reading of a motor.
+ *  @attention Pseudo register-based function
+ *  @param motor_number Motor number.
+ *  @return The RPM reading.
+ */
+int get_rpm_reading(uint8_t motor_number) {
+    if (motor_number < NUMBER_OF_MOTORS) {
+        return _motor_rpms[motor_number];
+    } else {
+        return 0;
+    }
+}
