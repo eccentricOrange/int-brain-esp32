@@ -137,24 +137,24 @@ After calling any of these, you must also call `publish_motor_command()` to actu
 Note that in many of the registers below, the address is given as a range. In such cases, each address in range corresponds to a particular motor. This feature allows you to use a shorter I2C transmission if you do not want to address all motors at once.
 
 ## Raspberry Pi request from ESP32 (send) registers
-*   `FIRST_SLAVE_REQUEST_ADDRESS = 0x00`
+*   `FIRST_SLAVE_REQUEST_ADDRESS = 0x20`
 *   `LAST_SLAVE_REQUEST_ADDRESS = 0x9F`
 
 | Description | "Register" | Data type | Length |
 | --- | --- | --- | --- |
-| Encoder positions | 0x10 | 4 bytes per motor (int) | 16 bytes |
-| Encoder position per motor | 0x11 - 0x14 | 4 bytes (int) | 4 bytes |
-| Motor speeds | 0x15 | 4 bytes per motor (int) | 16 bytes |
-| Motor speed per motor | 0x16 - 0x19 | 4 bytes (int) | 4 bytes |
-| Motor current | 0x20 | 4 bytes per motor (int) | 16 bytes |
-| Motor current per motor | 0x21 - 0x24 | 4 bytes (int) | 16 bytes |
-| Motor stall status | 0x30 | 1 byte total (bool) | 1 byte |
-| Motor disconnect status | 0x31 | 1 byte total (bool) | 1 byte |
-| IMU data (acceleration) | 0x40 | 4 bytes per axis (int) | 12 bytes |
-| IMU data (gyroscope) | 0x41 | 4 bytes per axis (int) | 12 bytes |
-| IMU data (magnetometer) | 0x42 | 4 bytes per axis (int) | 12 bytes |
-| IMU data (quaternion) | 0x43 | 4 bytes per axis (int) | 16 bytes |
-| Battery voltage | 0x50 | 4 bytes (int) | 4 bytes |
+| Encoder positions | 0x20 | 4 bytes per motor (int) | 16 bytes |
+| Encoder position per motor | 0x21 - 0x24 | 4 bytes (int) | 4 bytes |
+| Motor speeds | 0x25 | 4 bytes per motor (int) | 16 bytes |
+| Motor speed per motor | 0x26 - 0x29 | 4 bytes (int) | 4 bytes |
+| Motor current | 0x30 | 4 bytes per motor (int) | 16 bytes |
+| Motor current per motor | 0x31 - 0x34 | 4 bytes (int) | 16 bytes |
+| Motor stall status | 0x40 | 1 byte total (bool) | 1 byte |
+| Motor disconnect status | 0x41 | 1 byte total (bool) | 1 byte |
+| IMU data (acceleration) | 0x50 | 4 bytes per axis (int) | 12 bytes |
+| IMU data (gyroscope) | 0x51 | 4 bytes per axis (int) | 12 bytes |
+| IMU data (magnetometer) | 0x52 | 4 bytes per axis (int) | 12 bytes |
+| IMU data (quaternion) | 0x53 | 4 bytes per axis (int) | 16 bytes |
+| Battery voltage | 0x60 | 4 bytes (int) | 4 bytes |
 
 ## Raspberry Pi command to ESP32 (receive) registers
 *   `FIRST_SLAVE_COMMAND_ADDRESS = 0xA0`

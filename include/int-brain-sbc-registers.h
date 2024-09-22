@@ -1,37 +1,41 @@
 #pragma once
 
 /** @file int-brain-sbc-registers.h
- * @brief Declare the pseudo I2C registers for the ESP32 to communicate with the Raspberry Pi.
+ * @brief Declare the pseudo registers for the ESP32 to communicate with the Raspberry Pi.
  */
 
 /**
  *  @section Raspberry Pi request from ESP32
  */
-#define FIRST_SLAVE_REQUEST_ADDRESS 0x00
+#define FIRST_SLAVE_REQUEST_ADDRESS 0x20
 #define LAST_SLAVE_REQUEST_ADDRESS 0x9F
 
 // Encoder "registers"
-#define REQUEST_ALL_ENCODER_ADDRESS 0x10
-#define REQUEST_INDIVIDUAL_ENCODER_FIRST_ADDRESS 0x11
+#define REQUEST_ALL_ENCODER_ADDRESS 0x20
+#define REQUEST_INDIVIDUAL_ENCODER_FIRST_ADDRESS 0x21
+
+// RPM "registers"
+#define REQUEST_ALL_RPM_ADDRESS 0x25
+#define REQUEST_INDIVIDUAL_RPM_FIRST_ADDRESS 0x26
 
 // Motor current sense "registers"
-#define REQUEST_ALL_MOTOR_CURRENT_ADDRESS 0x20
-#define REQUEST_INDIVIDUAL_MOTOR_CURRENT_FIRST_ADDRESS 0x21
+#define REQUEST_ALL_MOTOR_CURRENT_ADDRESS 0x30
+#define REQUEST_INDIVIDUAL_MOTOR_CURRENT_FIRST_ADDRESS 0x31
 
 // Motor stall status "registers"
-#define REQUEST_ALL_MOTOR_STALL_ADDRESS 0x30
+#define REQUEST_ALL_MOTOR_STALL_ADDRESS 0x40
 
 // Motor disconnect status "registers"
-#define REQUEST_ALL_MOTOR_DISCONNECT_ADDRESS 0x31
+#define REQUEST_ALL_MOTOR_DISCONNECT_ADDRESS 0x41
 
 // IMU "registers"
-#define REQUEST_IMU_ACCELERATION_ADDRESS 0x40
-#define REQUEST_IMU_GYROSCOPE_ADDRESS 0x41
-#define REQUEST_IMU_MAGNETIC_ADDRESS 0x42
-#define REQUEST_IMU_QUATERNION_ADDRESS 0x43
+#define REQUEST_IMU_ACCELERATION_ADDRESS 0x50
+#define REQUEST_IMU_GYROSCOPE_ADDRESS 0x51
+#define REQUEST_IMU_MAGNETIC_ADDRESS 0x52
+#define REQUEST_IMU_QUATERNION_ADDRESS 0x53
 
 // Battery "registers"
-#define REQUEST_BATTERY_VOLTAGE_ADDRESS 0x50
+#define REQUEST_BATTERY_VOLTAGE_ADDRESS 0x60
 
 
 /**

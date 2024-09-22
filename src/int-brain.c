@@ -8,9 +8,14 @@
 /**
  *  @section State variables
  */
-uint8_t _sbc_i2c1_receive_buffer[SBC_I2C1_RECEIVE_DATA_BUFFER_SIZE];
-uint8_t _sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
-uint8_t _sbc_i2c1_register;
+bool sbc_data_received_flag = false;
+
+uint8_t sbc_i2c1_receive_buffer[SBC_I2C1_RECEIVE_DATA_BUFFER_SIZE];
+uint8_t sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
+
+char sbc_uart0_receive_buffer[UART0_RX_BUFFER_SIZE];
+char sbc_uart0_send_buffer[UART0_TX_BUFFER_SIZE];
+size_t uart_received_data_length;
 
 int _encoder_positions[NUMBER_OF_MOTORS];
 int _encoder_positions_previous[NUMBER_OF_MOTORS];

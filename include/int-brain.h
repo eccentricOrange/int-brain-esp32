@@ -1,9 +1,12 @@
 #pragma once
 
+#include <string.h>
+
 #include "driver/gpio.h"
 #include "driver/i2c_master.h"
 #include "driver/i2c_slave.h"
 #include "driver/pulse_cnt.h"
+#include "driver/uart.h"
 #include "esp_adc/adc_cali.h"
 #include "esp_adc/adc_cali_scheme.h"
 #include "esp_adc/adc_oneshot.h"
@@ -48,18 +51,18 @@ extern const int MOTOR_GEAR_RATIO;
 extern const int MAX_MOTOR_RPM;
 
 /// Maximum RPM of the motor at maximum PWM (output shaft)
-#define DEFAULT_MAX_MOTOR_RPM 100
+#define DEFAULT_MAX_MOTOR_RPM 80
 
 /// Maximum number of pulses in the encoder per revolution of the output shaft
 extern const int ENCODER_LIMIT;  // pulses
 
 /// Maximum number of pulses in the encoder per revolution (PPR)
-#define DEFAULT_ENCODER_LIMIT ENCODER_CPR* MOTOR_GEAR_RATIO  // pulses
+#define DEFAULT_ENCODER_LIMIT ENCODER_CPR * MOTOR_GEAR_RATIO  // pulses
 
 /// Debounce period for encoder
 extern const int ENCODER_GLITCH_PERIOD;  // ns
 
-/// Debounce period for encoder
+/// Debounce period for encode
 #define DEFAULT_ENCODER_GLITCH_PERIOD 1e3  // ns
 
 /// ADC attenuation, we choose not to use attenuation
@@ -203,6 +206,13 @@ static motor_t DEFAULT_MOTORS_PIN_OUTS[NUMBER_OF_MOTORS] = {
 #define I2C1_SLAVE_SCL_PIN 15
 #define I2C1_SLAVE_SDA_PIN 13
 
+// UART pins
+#define DEFAULT_UART0_TX_PIN 1
+#define DEFAULT_UART0_RX_PIN 3
+
+// UART ports
+#define UART_CHOSEN_PORT UART_NUM_0
+
 /// Battery voltage sense pin
 #define BATTERY_VOLTAGE_SENSE_PIN 25
 
@@ -248,6 +258,24 @@ static const i2c_slave_config_t DEFAULT_I2C1_SLAVE_CONFIG = {
     .sda_io_num = I2C1_SLAVE_SDA_PIN,
     .scl_io_num = I2C1_SLAVE_SCL_PIN,
     .slave_addr = ESP32_I2C1_SLAVE_ADDRESS,
+
+};
+
+/**
+ * @section UART constants
+ */
+
+#define UART0_RX_BUFFER_SIZE 1024
+#define UART0_TX_BUFFER_SIZE 1024
+
+/// @brief Default UART configuration for the UART0 port
+static const uart_config_t DEFAULT_UART0_CONFIG = {
+    .baud_rate = 115200,
+    .data_bits = UART_DATA_8_BITS,
+    .parity = UART_PARITY_DISABLE,
+    .stop_bits = UART_STOP_BITS_1,
+    .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+    .rx_flow_ctrl_thresh = 122,
 };
 
 /**
@@ -291,9 +319,14 @@ static const i2c_slave_config_t DEFAULT_I2C1_SLAVE_CONFIG = {
 /**
  *  @section State variables
  */
-extern uint8_t _sbc_i2c1_receive_buffer[SBC_I2C1_RECEIVE_DATA_BUFFER_SIZE];
-extern uint8_t _sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
-extern uint8_t _sbc_i2c1_register;
+extern bool sbc_data_received_flag;
+
+extern uint8_t sbc_i2c1_receive_buffer[SBC_I2C1_RECEIVE_DATA_BUFFER_SIZE];
+extern uint8_t sbc_i2c1_send_buffer[SBC_I2C1_SEND_DATA_BUFFER_SIZE];
+
+extern char sbc_uart0_receive_buffer[UART0_RX_BUFFER_SIZE];
+extern char sbc_uart0_send_buffer[UART0_TX_BUFFER_SIZE];
+extern size_t uart_received_data_length;
 
 extern int _encoder_positions[NUMBER_OF_MOTORS];
 extern int _encoder_positions_previous[NUMBER_OF_MOTORS];
@@ -387,11 +420,27 @@ extern esp_err_t calculate_rpm_task();                                          
 extern int get_rpm_reading(uint8_t motor_number);                                                // pseudo register-based function
 
 /**
+ *  @section SBC Common Function prototypes
+ */
+extern esp_err_t parse_sbc_data(uint8_t data_type, uint8_t number_of_values, int* received_values, uint8_t* number_of_values_to_transmit, int* values_to_transmit);  // pseudo register-based function
+
+/**
  *  @section SBC I2C Function prototypes
  */
 static QueueHandle_t _sbc_i2c1_receive_queue;
 
-extern IRAM_ATTR bool _sbc_i2c1_receive_callback(i2c_slave_dev_handle_t device_handle, i2c_slave_rx_done_event_data_t* edata, void* user_data);  // direct task function
-extern esp_err_t sbc_i2c1_register_callback(i2c_slave_dev_handle_t device_handle);                                                               // direct task function
-extern esp_err_t sbc_i2c1_read_data(i2c_slave_dev_handle_t device_handle, esp_err_t* on_receive_callback());                                     // pseudo register-based function
-extern esp_err_t sbc_i2c_parse_data();                                                                                                           // pseudo register-based function
+extern IRAM_ATTR bool _sbc_i2c1_receive_callback(i2c_slave_dev_handle_t device_handle, i2c_slave_rx_done_event_data_t* edata, void* user_data);   // direct task function
+extern esp_err_t sbc_i2c1_register_callback(i2c_slave_dev_handle_t device_handle);                                                                // direct task function
+extern esp_err_t sbc_i2c1_read_data(i2c_slave_dev_handle_t device_handle);                                                                        // direct task function
+extern esp_err_t parse_i2c_frame(uint8_t* received_data, size_t data_length, uint8_t* value_type, uint8_t* number_of_values, int* returned_values);  // direct task function
+extern esp_err_t package_i2c_frame(int* data, uint8_t data_length, uint8_t value_type, int* return_buffer_length, uint8_t* return_buffer);        // direct task function
+
+/**
+ * @section SBC UART Function prototypes
+ */
+static QueueHandle_t _sbc_uart0_receive_queue;
+
+extern esp_err_t sbc_uart_init(uart_config_t uart_config);                                                                                         // direct task function
+extern esp_err_t uart_event_task();                                                                                                                // direct task function
+extern esp_err_t parse_uart_frame(char* received_data, size_t data_length, uint8_t* value_type, uint8_t* number_of_values, int* returned_values);  // direct task function
+extern esp_err_t package_uart_frame(int* data, uint8_t data_length, uint8_t value_type, size_t* return_buffer_length, char* return_buffer);        // direct task function
