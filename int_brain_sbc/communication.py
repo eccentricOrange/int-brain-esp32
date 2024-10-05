@@ -16,7 +16,12 @@ class DataFrame:
 
     # raise an error if the number of values is not equal to the length of the values
     def __setattr__(self, name, value):
-        if name == "values" and hasattr(self, "number_of_values") and value is not None and len(value) != self.number_of_values:
+        if all((
+            name == "values",
+            hasattr(self, "number_of_values"),
+            value is not None,
+            len(value) != self.number_of_values
+        )):
             raise ValueError(
                 f"Expected {self.number_of_values} values, got {len(value)}")
 
@@ -26,7 +31,11 @@ class DataFrame:
         if not isinstance(value, DataFrame):
             return False
 
-        return self.message_type == value.message_type and self.number_of_values == value.number_of_values and self.values == value.values
+        return all((
+            self.message_type == value.message_type,
+            self.number_of_values == value.number_of_values,
+            self.values == value.values
+        ))
 
     def __len__(self) -> int:
         return self.number_of_values
