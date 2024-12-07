@@ -2,11 +2,6 @@
 *cache
 *.zip
 *.lck
-*.doc*
-*.xls*
-*.ppt*
-*.pdf
 *auto*save*
 exports/
 *.drawio
-.vscode

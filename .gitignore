@@ -1,0 +1,6 @@
+*.doc*
+*.xls*
+*.ppt*
+*.pdf
+.vscode
+docs
