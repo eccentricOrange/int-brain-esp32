@@ -1,10 +1,6 @@
 # Integrated Brain ESP-IDF Component
 This is the MCU firmware for a custom PCB designed to control, supply power to, and monitor a four-wheeled robot. It's built on a master-slave architecture, with an ESP32 as the slave and an SBC (such as an NVIDIA Jetson or Raspberry Pi) as the master.
 
-Related projects:
--   [Integrated Brain PCB](https://github.com/eccentricOrange/int-brain)
--   [Integrated Brain Python Library](https://github.com/eccentricOrange/int-brain-sbc)
-
 Note that this project has a lot of different registers, addresses, and buffers. These are referenced several times throughout the documentation, but in the interest of comprehensibility, they are all listed towards the end of the documentation only.
 
 # Overall design
