@@ -1,5 +1,0 @@
-(sym_lib_table
-  (version 7)
-  (lib (name "2024-06-11_09-14-51")(type "KiCad")(uri "${KIPRJMOD}/libraries/DRV8251A/2024-06-11_09-14-51.kicad_sym")(options "")(descr ""))
-  (lib (name "TPS5450DDA")(type "KiCad")(uri "${KIPRJMOD}/libraries/TPS5450DDA/TPS5450DDA.kicad_sym")(options "")(descr ""))
-)
